@@ -25,16 +25,16 @@ import {
 } from "wagmi";
 import { base, degen, mainnet, optimism, unichain } from "wagmi/chains";
 
-import { config } from "~/components/providers/WagmiProvider";
-import { Button } from "~/components/ui/Button";
-import { Footer } from "~/components/ui/Footer";
-import { Header } from "~/components/ui/Header";
-import { APP_NAME, USE_WALLET } from "~/lib/constants";
-import { truncateAddress } from "~/lib/truncateAddress";
-import { useHasSolanaProvider } from "./providers/SafeFarcasterSolanaProvider";
-import { ShareButton } from "./ui/Share";
+import { config } from "@/src/components/providers/WagmiProvider";
+import { Button } from "@/src/components/ui/Button";
+import { Header } from "@/src/components/ui/Header";
+import { APP_NAME, USE_WALLET } from "@/src/lib/constants";
+import { truncateAddress } from "@/src/lib/truncateAddress";
 
-export type Tab = "home" | "actions" | "context" | "wallet";
+import type { Tab } from "../lib/types";
+import { useHasSolanaProvider } from "./providers/SafeFarcasterSolanaProvider";
+import { Footer } from "./ui/Footer";
+import { ShareButton } from "./ui/Share";
 
 interface NeynarUser {
   fid: number;
@@ -371,7 +371,7 @@ export default function Demo(
               </Button>
             ) : context ? (
               <Button
-                onClick={() => connect({ connector: connectors[0] })}
+                onClick={() => connect({ connector: connectors[0]! })}
                 className="w-full"
               >
                 Connect
@@ -379,13 +379,13 @@ export default function Demo(
             ) : (
               <div className="w-full space-y-3">
                 <Button
-                  onClick={() => connect({ connector: connectors[1] })}
+                  onClick={() => connect({ connector: connectors[1]! })}
                   className="w-full"
                 >
                   Connect Coinbase Wallet
                 </Button>
                 <Button
-                  onClick={() => connect({ connector: connectors[2] })}
+                  onClick={() => connect({ connector: connectors[2]! })}
                   className="w-full"
                 >
                   Connect MetaMask
@@ -599,7 +599,7 @@ function SignEvmMessage() {
     if (!isConnected) {
       await connectAsync({
         chainId: base.id,
-        connector: config.connectors[0],
+        connector: config.connectors[0]!,
       });
     }
 
