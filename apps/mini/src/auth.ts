@@ -1,5 +1,6 @@
+import type { AuthOptions } from "next-auth";
 import { createAppClient, viemConnector } from "@farcaster/auth-client";
-import { AuthOptions, getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 declare module "next-auth" {
@@ -70,7 +71,7 @@ export const authOptions: AuthOptions = {
         const domain = getDomainFromUrl(process.env.NEXTAUTH_URL);
 
         const verifyResponse = await appClient.verifySignInMessage({
-          message: credentials?.message as string,
+          message: credentials?.message!,
           signature: credentials?.signature as `0x${string}`,
           domain,
           nonce: csrfToken,
