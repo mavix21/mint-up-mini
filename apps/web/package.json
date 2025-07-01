@@ -15,9 +15,10 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@farcaster/miniapp-sdk": "^0.1.2",
+    "@mint-up/convex": "workspace:*",
     "@mint-up/db": "workspace:*",
     "@mint-up/ui": "workspace:*",
-    "@mint-up/convex": "workspace:*",
     "@t3-oss/env-nextjs": "^0.13.8",
     "@tabler/icons-react": "^3.34.0",
     "@tanstack/react-query": "catalog:",
@@ -25,10 +26,11 @@
     "next-themes": "^0.4.6",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
+    "tailwindcss": "^4.1.11",
+    "inquirer": "^12.4.3",
     "viem": "^2.31.6",
     "wagmi": "^2.15.6",
-    "zod": "catalog:",
-    "tailwindcss": "^4.1.11"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@mint-up/eslint-config": "workspace:*",
@@ -40,7 +42,11 @@
     "eslint": "catalog:",
     "eslint-config-next": "15.3.4",
     "jiti": "^1.21.7",
+    "@neynar/nodejs-sdk": "^2.19.0",
     "typescript": "catalog:"
+  },
+  "bin": {
+    "@neynar/create-farcaster-mini-app": "./bin/index.js"
   },
   "prettier": "@mint-up/prettier-config"
 }
