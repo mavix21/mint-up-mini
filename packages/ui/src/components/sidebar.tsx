@@ -2,6 +2,10 @@
 
 import type { VariantProps } from "class-variance-authority";
 import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva } from "class-variance-authority";
+import { PanelLeftIcon } from "lucide-react";
+
 import { Button } from "@mint-up/ui/components/button";
 import { Input } from "@mint-up/ui/components/input";
 import { Separator } from "@mint-up/ui/components/separator";
@@ -20,9 +24,6 @@ import {
   TooltipTrigger,
 } from "@mint-up/ui/components/tooltip";
 import { cn } from "@mint-up/ui/lib/utils";
-import { Slot } from "@radix-ui/react-slot";
-import { cva } from "class-variance-authority";
-import { PanelLeftIcon } from "lucide-react";
 
 import { useIsMobile } from "../hooks/use-mobile";
 

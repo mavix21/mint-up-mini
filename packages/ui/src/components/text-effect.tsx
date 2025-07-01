@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { cn } from "@mint-up/ui/lib/utils";
 import {
   AnimatePresence,
   motion,
@@ -10,6 +9,8 @@ import {
   Variant,
   Variants,
 } from "motion/react";
+
+import { cn } from "@mint-up/ui/lib/utils";
 
 export type PresetType = "blur" | "fade-in-blur" | "scale" | "fade" | "slide";
 

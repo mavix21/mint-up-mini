@@ -1,5 +1,6 @@
 import { FrameNotificationDetails } from "@farcaster/frame-sdk";
 import { Redis } from "@upstash/redis";
+
 import { APP_NAME } from "./constants";
 
 // In-memory fallback storage
@@ -7,17 +8,19 @@ const localStore = new Map<string, FrameNotificationDetails>();
 
 // Use Redis if KV env vars are present, otherwise use in-memory
 const useRedis = process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN;
-const redis = useRedis ? new Redis({
-  url: process.env.KV_REST_API_URL!,
-  token: process.env.KV_REST_API_TOKEN!,
-}) : null;
+const redis = useRedis
+  ? new Redis({
+      url: process.env.KV_REST_API_URL!,
+      token: process.env.KV_REST_API_TOKEN!,
+    })
+  : null;
 
 function getUserNotificationDetailsKey(fid: number): string {
   return `${APP_NAME}:user:${fid}`;
 }
 
 export async function getUserNotificationDetails(
-  fid: number
+  fid: number,
 ): Promise<FrameNotificationDetails | null> {
   const key = getUserNotificationDetailsKey(fid);
   if (redis) {
@@ -28,7 +31,7 @@ export async function getUserNotificationDetails(
 
 export async function setUserNotificationDetails(
   fid: number,
-  notificationDetails: FrameNotificationDetails
+  notificationDetails: FrameNotificationDetails,
 ): Promise<void> {
   const key = getUserNotificationDetailsKey(fid);
   if (redis) {
@@ -39,7 +42,7 @@ export async function setUserNotificationDetails(
 }
 
 export async function deleteUserNotificationDetails(
-  fid: number
+  fid: number,
 ): Promise<void> {
   const key = getUserNotificationDetailsKey(fid);
   if (redis) {

@@ -1,5 +1,6 @@
-import { Button } from "@mint-up/ui/components/button";
 import { IconBrandGithub, IconRocket } from "@tabler/icons-react";
+
+import { Button } from "@mint-up/ui/components/button";
 
 import { ThemeSwitcher } from "@/app/_shared/ui/theme-switcher";
 

@@ -1,43 +1,40 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
+import type { Haptics } from "@farcaster/frame-sdk";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { signIn, signOut, getCsrfToken } from "next-auth/react";
-import sdk, {
-  SignIn as SignInCore,
-  type Haptics,
-} from "@farcaster/frame-sdk";
-import {
-  useAccount,
-  useSendTransaction,
-  useSignMessage,
-  useSignTypedData,
-  useWaitForTransactionReceipt,
-  useDisconnect,
-  useConnect,
-  useSwitchChain,
-  useChainId,
-} from "wagmi";
+import sdk, { SignIn as SignInCore } from "@farcaster/frame-sdk";
+import { useMiniApp } from "@neynar/react";
 import {
   useConnection as useSolanaConnection,
   useWallet as useSolanaWallet,
-} from '@solana/wallet-adapter-react';
-import { useHasSolanaProvider } from "./providers/SafeFarcasterSolanaProvider";
-import { ShareButton } from "./ui/Share";
+} from "@solana/wallet-adapter-react";
+import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
+import { getCsrfToken, signIn, signOut, useSession } from "next-auth/react";
+import { BaseError, UserRejectedRequestError } from "viem";
+import {
+  useAccount,
+  useChainId,
+  useConnect,
+  useDisconnect,
+  useSendTransaction,
+  useSignMessage,
+  useSignTypedData,
+  useSwitchChain,
+  useWaitForTransactionReceipt,
+} from "wagmi";
+import { base, degen, mainnet, optimism, unichain } from "wagmi/chains";
 
 import { config } from "~/components/providers/WagmiProvider";
 import { Button } from "~/components/ui/Button";
-import { truncateAddress } from "~/lib/truncateAddress";
-import { base, degen, mainnet, optimism, unichain } from "wagmi/chains";
-import { BaseError, UserRejectedRequestError } from "viem";
-import { useSession } from "next-auth/react";
-import { useMiniApp } from "@neynar/react";
-import { PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
-import { Header } from "~/components/ui/Header";
 import { Footer } from "~/components/ui/Footer";
-import { USE_WALLET, APP_NAME } from "~/lib/constants";
+import { Header } from "~/components/ui/Header";
+import { APP_NAME, USE_WALLET } from "~/lib/constants";
+import { truncateAddress } from "~/lib/truncateAddress";
+import { useHasSolanaProvider } from "./providers/SafeFarcasterSolanaProvider";
+import { ShareButton } from "./ui/Share";
 
-export type Tab = 'home' | 'actions' | 'context' | 'wallet';
+export type Tab = "home" | "actions" | "context" | "wallet";
 
 interface NeynarUser {
   fid: number;
@@ -45,7 +42,7 @@ interface NeynarUser {
 }
 
 export default function Demo(
-  { title }: { title?: string } = { title: "Neynar Starter Kit" }
+  { title }: { title?: string } = { title: "Neynar Starter Kit" },
 ) {
   const {
     isSDKLoaded,
@@ -63,7 +60,8 @@ export default function Demo(
   const [sendNotificationResult, setSendNotificationResult] = useState("");
   const [copied, setCopied] = useState(false);
   const [neynarUser, setNeynarUser] = useState<NeynarUser | null>(null);
-  const [hapticIntensity, setHapticIntensity] = useState<Haptics.ImpactOccurredType>('medium');
+  const [hapticIntensity, setHapticIntensity] =
+    useState<Haptics.ImpactOccurredType>("medium");
 
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
@@ -74,7 +72,7 @@ export default function Demo(
   // Set initial tab to home on page load
   useEffect(() => {
     if (isSDKLoaded) {
-      setInitialTab('home');
+      setInitialTab("home");
     }
   }, [isSDKLoaded, setInitialTab]);
 
@@ -97,7 +95,7 @@ export default function Demo(
             setNeynarUser(data.users[0]);
           }
         } catch (error) {
-          console.error('Failed to fetch Neynar user object:', error);
+          console.error("Failed to fetch Neynar user object:", error);
         }
       }
     };
@@ -195,7 +193,7 @@ export default function Demo(
         onSuccess: (hash) => {
           setTxHash(hash);
         },
-      }
+      },
     );
   }, [sendTransaction]);
 
@@ -233,50 +231,67 @@ export default function Demo(
         paddingRight: context?.client.safeAreaInsets?.right ?? 0,
       }}
     >
-      <div className="mx-auto py-2 px-4 pb-20">
+      <div className="mx-auto px-4 py-2 pb-20">
         <Header neynarUser={neynarUser} />
 
-        <h1 className="text-2xl font-bold text-center mb-4">{title}</h1>
+        <h1 className="mb-4 text-center text-2xl font-bold">{title}</h1>
 
-        {currentTab === 'home' && (
-          <div className="flex items-center justify-center h-[calc(100vh-200px)] px-6">
-            <div className="text-center w-full max-w-md mx-auto">
-              <p className="text-lg mb-2">Put your content here!</p>
+        {currentTab === "home" && (
+          <div className="flex h-[calc(100vh-200px)] items-center justify-center px-6">
+            <div className="mx-auto w-full max-w-md text-center">
+              <p className="mb-2 text-lg">Put your content here!</p>
               <p className="text-sm text-gray-500">Powered by Neynar 🪐</p>
             </div>
           </div>
         )}
 
-        {currentTab === 'actions' && (
-          <div className="space-y-3 px-6 w-full max-w-md mx-auto">
-            <ShareButton 
+        {currentTab === "actions" && (
+          <div className="mx-auto w-full max-w-md space-y-3 px-6">
+            <ShareButton
               buttonText="Share Mini App"
               cast={{
                 text: "Check out this awesome frame @1 @2 @3! 🚀🪐",
                 bestFriends: true,
-                embeds: [`${process.env.NEXT_PUBLIC_URL}/share/${context?.user?.fid || ''}`]
+                embeds: [
+                  `${process.env.NEXT_PUBLIC_URL}/share/${context?.user?.fid || ""}`,
+                ],
               }}
               className="w-full"
             />
 
             <SignIn />
 
-            <Button onClick={() => actions.openUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ")} className="w-full">Open Link</Button>
+            <Button
+              onClick={() =>
+                actions.openUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+              }
+              className="w-full"
+            >
+              Open Link
+            </Button>
 
-            <Button onClick={actions.addMiniApp} disabled={added} className="w-full">
+            <Button
+              onClick={actions.addMiniApp}
+              disabled={added}
+              className="w-full"
+            >
               Add Mini App to Client
             </Button>
 
             {sendNotificationResult && (
-              <div className="text-sm w-full">
+              <div className="w-full text-sm">
                 Send notification result: {sendNotificationResult}
               </div>
             )}
-            <Button onClick={sendNotification} disabled={!notificationDetails} className="w-full">
+            <Button
+              onClick={sendNotification}
+              disabled={!notificationDetails}
+              className="w-full"
+            >
               Send notification
             </Button>
 
-            <Button 
+            <Button
               onClick={async () => {
                 if (context?.user?.fid) {
                   const shareUrl = `${process.env.NEXT_PUBLIC_URL}/share/${context.user.fid}`;
@@ -297,8 +312,10 @@ export default function Demo(
               </label>
               <select
                 value={hapticIntensity}
-                onChange={(e) => setHapticIntensity(e.target.value as typeof hapticIntensity)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                onChange={(e) =>
+                  setHapticIntensity(e.target.value as typeof hapticIntensity)
+                }
+                className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:ring-2 focus:ring-purple-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
               >
                 <option value="light">Light</option>
                 <option value="medium">Medium</option>
@@ -306,12 +323,12 @@ export default function Demo(
                 <option value="soft">Soft</option>
                 <option value="rigid">Rigid</option>
               </select>
-              <Button 
+              <Button
                 onClick={async () => {
                   try {
                     await haptics.impactOccurred(hapticIntensity);
                   } catch (error) {
-                    console.error('Haptic feedback failed:', error);
+                    console.error("Haptic feedback failed:", error);
                   }
                 }}
                 className="w-full"
@@ -322,36 +339,34 @@ export default function Demo(
           </div>
         )}
 
-        {currentTab === 'context' && (
+        {currentTab === "context" && (
           <div className="mx-6">
-            <h2 className="text-lg font-semibold mb-2">Context</h2>
-            <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
-              <pre className="font-mono text-xs whitespace-pre-wrap break-words w-full">
+            <h2 className="mb-2 text-lg font-semibold">Context</h2>
+            <div className="rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
+              <pre className="w-full font-mono text-xs break-words whitespace-pre-wrap">
                 {JSON.stringify(context, null, 2)}
               </pre>
             </div>
           </div>
         )}
 
-        {currentTab === 'wallet' && USE_WALLET && (
-          <div className="space-y-3 px-6 w-full max-w-md mx-auto">
+        {currentTab === "wallet" && USE_WALLET && (
+          <div className="mx-auto w-full max-w-md space-y-3 px-6">
             {address && (
-              <div className="text-xs w-full">
-                Address: <pre className="inline w-full">{truncateAddress(address)}</pre>
+              <div className="w-full text-xs">
+                Address:{" "}
+                <pre className="inline w-full">{truncateAddress(address)}</pre>
               </div>
             )}
 
             {chainId && (
-              <div className="text-xs w-full">
+              <div className="w-full text-xs">
                 Chain ID: <pre className="inline w-full">{chainId}</pre>
               </div>
             )}
 
             {isConnected ? (
-              <Button
-                onClick={() => disconnect()}
-                className="w-full"
-              >
+              <Button onClick={() => disconnect()} className="w-full">
                 Disconnect
               </Button>
             ) : context ? (
@@ -362,7 +377,7 @@ export default function Demo(
                 Connect
               </Button>
             ) : (
-              <div className="space-y-3 w-full">
+              <div className="w-full space-y-3">
                 <Button
                   onClick={() => connect({ connector: connectors[1] })}
                   className="w-full"
@@ -393,15 +408,15 @@ export default function Demo(
                 </Button>
                 {isSendTxError && renderError(sendTxError)}
                 {txHash && (
-                  <div className="text-xs w-full">
+                  <div className="w-full text-xs">
                     <div>Hash: {truncateAddress(txHash)}</div>
                     <div>
                       Status:{" "}
                       {isConfirming
                         ? "Confirming..."
                         : isConfirmed
-                        ? "Confirmed!"
-                        : "Pending"}
+                          ? "Confirmed!"
+                          : "Pending"}
                     </div>
                   </div>
                 )}
@@ -428,7 +443,11 @@ export default function Demo(
           </div>
         )}
 
-        <Footer activeTab={currentTab as Tab} setActiveTab={setActiveTab} showWallet={USE_WALLET} />
+        <Footer
+          activeTab={currentTab as Tab}
+          setActiveTab={setActiveTab}
+          showWallet={USE_WALLET}
+        />
       </div>
     </div>
   );
@@ -436,7 +455,11 @@ export default function Demo(
 
 // Solana functions inspired by farcaster demo
 // https://github.com/farcasterxyz/frames-v2-demo/blob/main/src/components/Demo.tsx
-function SignSolanaMessage({ signMessage }: { signMessage?: (message: Uint8Array) => Promise<Uint8Array> }) {
+function SignSolanaMessage({
+  signMessage,
+}: {
+  signMessage?: (message: Uint8Array) => Promise<Uint8Array>;
+}) {
   const [signature, setSignature] = useState<string | undefined>();
   const [signError, setSignError] = useState<Error | undefined>();
   const [signPending, setSignPending] = useState(false);
@@ -445,7 +468,7 @@ function SignSolanaMessage({ signMessage }: { signMessage?: (message: Uint8Array
     setSignPending(true);
     try {
       if (!signMessage) {
-        throw new Error('no Solana signMessage');
+        throw new Error("no Solana signMessage");
       }
       const input = new TextEncoder().encode("Hello from Solana!");
       const signatureBytes = await signMessage(input);
@@ -483,29 +506,30 @@ function SignSolanaMessage({ signMessage }: { signMessage?: (message: Uint8Array
 
 function SendSolana() {
   const [state, setState] = useState<
-    | { status: 'none' }
-    | { status: 'pending' }
-    | { status: 'error'; error: Error }
-    | { status: 'success'; signature: string }
-  >({ status: 'none' });
+    | { status: "none" }
+    | { status: "pending" }
+    | { status: "error"; error: Error }
+    | { status: "success"; signature: string }
+  >({ status: "none" });
 
   const { connection: solanaConnection } = useSolanaConnection();
   const { sendTransaction, publicKey } = useSolanaWallet();
 
   // This should be replaced but including it from the original demo
   // https://github.com/farcasterxyz/frames-v2-demo/blob/main/src/components/Demo.tsx#L718
-  const ashoatsPhantomSolanaWallet = 'Ao3gLNZAsbrmnusWVqQCPMrcqNi6jdYgu8T6NCoXXQu1';
+  const ashoatsPhantomSolanaWallet =
+    "Ao3gLNZAsbrmnusWVqQCPMrcqNi6jdYgu8T6NCoXXQu1";
 
   const handleSend = useCallback(async () => {
-    setState({ status: 'pending' });
+    setState({ status: "pending" });
     try {
       if (!publicKey) {
-        throw new Error('no Solana publicKey');
+        throw new Error("no Solana publicKey");
       }
 
       const { blockhash } = await solanaConnection.getLatestBlockhash();
       if (!blockhash) {
-        throw new Error('failed to fetch latest Solana blockhash');
+        throw new Error("failed to fetch latest Solana blockhash");
       }
 
       const fromPubkeyStr = publicKey.toBase58();
@@ -521,20 +545,21 @@ function SendSolana() {
       transaction.recentBlockhash = blockhash;
       transaction.feePayer = new PublicKey(fromPubkeyStr);
 
-      const simulation = await solanaConnection.simulateTransaction(transaction);
+      const simulation =
+        await solanaConnection.simulateTransaction(transaction);
       if (simulation.value.err) {
         // Gather logs and error details for debugging
-        const logs = simulation.value.logs?.join('\n') ?? 'No logs';
+        const logs = simulation.value.logs?.join("\n") ?? "No logs";
         const errDetail = JSON.stringify(simulation.value.err);
         throw new Error(`Simulation failed: ${errDetail}\nLogs:\n${logs}`);
       }
       const signature = await sendTransaction(transaction, solanaConnection);
-      setState({ status: 'success', signature });
+      setState({ status: "success", signature });
     } catch (e) {
       if (e instanceof Error) {
-        setState({ status: 'error', error: e });
+        setState({ status: "error", error: e });
       } else {
-        setState({ status: 'none' });
+        setState({ status: "none" });
       }
     }
   }, [sendTransaction, publicKey, solanaConnection]);
@@ -543,14 +568,14 @@ function SendSolana() {
     <>
       <Button
         onClick={handleSend}
-        disabled={state.status === 'pending'}
-        isLoading={state.status === 'pending'}
+        disabled={state.status === "pending"}
+        isLoading={state.status === "pending"}
         className="mb-4"
       >
         Send Transaction (sol)
       </Button>
-      {state.status === 'error' && renderError(state.error)}
-      {state.status === 'success' && (
+      {state.status === "error" && renderError(state.error)}
+      {state.status === "success" && (
         <div className="mt-2 text-xs">
           <div>Hash: {truncateAddress(state.signature)}</div>
         </div>
@@ -647,8 +672,8 @@ function SendEth() {
             {isConfirming
               ? "Confirming..."
               : isConfirmed
-              ? "Confirmed!"
-              : "Pending"}
+                ? "Confirmed!"
+                : "Pending"}
           </div>
         </div>
       )}
@@ -717,22 +742,22 @@ function SignIn() {
         </Button>
       )}
       {session && (
-        <div className="my-2 p-2 text-xs overflow-x-scroll bg-gray-100 rounded-lg font-mono">
-          <div className="font-semibold text-gray-500 mb-1">Session</div>
+        <div className="my-2 overflow-x-scroll rounded-lg bg-gray-100 p-2 font-mono text-xs">
+          <div className="mb-1 font-semibold text-gray-500">Session</div>
           <div className="whitespace-pre">
             {JSON.stringify(session, null, 2)}
           </div>
         </div>
       )}
       {signInFailure && !signingIn && (
-        <div className="my-2 p-2 text-xs overflow-x-scroll bg-gray-100 rounded-lg font-mono">
-          <div className="font-semibold text-gray-500 mb-1">SIWF Result</div>
+        <div className="my-2 overflow-x-scroll rounded-lg bg-gray-100 p-2 font-mono text-xs">
+          <div className="mb-1 font-semibold text-gray-500">SIWF Result</div>
           <div className="whitespace-pre">{signInFailure}</div>
         </div>
       )}
       {signInResult && !signingIn && (
-        <div className="my-2 p-2 text-xs overflow-x-scroll bg-gray-100 rounded-lg font-mono">
-          <div className="font-semibold text-gray-500 mb-1">SIWF Result</div>
+        <div className="my-2 overflow-x-scroll rounded-lg bg-gray-100 p-2 font-mono text-xs">
+          <div className="mb-1 font-semibold text-gray-500">SIWF Result</div>
           <div className="whitespace-pre">
             {JSON.stringify(signInResult, null, 2)}
           </div>
@@ -746,14 +771,13 @@ const renderError = (error: Error | null) => {
   if (!error) return null;
   if (error instanceof BaseError) {
     const isUserRejection = error.walk(
-      (e) => e instanceof UserRejectedRequestError
+      (e) => e instanceof UserRejectedRequestError,
     );
 
     if (isUserRejection) {
-      return <div className="text-red-500 text-xs mt-1">Rejected by user.</div>;
+      return <div className="mt-1 text-xs text-red-500">Rejected by user.</div>;
     }
   }
 
-  return <div className="text-red-500 text-xs mt-1">{error.message}</div>;
+  return <div className="mt-1 text-xs text-red-500">{error.message}</div>;
 };
-
