@@ -1,17 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { IconCheck, IconMoon, IconSun } from "@tabler/icons-react";
-import { useTheme } from "next-themes";
-
-import { Button } from "@myapp/ui/components/button";
+import { Button } from "@mint-up/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@myapp/ui/components/dropdown-menu";
-import { cn } from "@myapp/ui/lib/utils";
+} from "@mint-up/ui/components/dropdown-menu";
+import { cn } from "@mint-up/ui/lib/utils";
+import { IconCheck, IconMoon, IconSun } from "@tabler/icons-react";
+import { useTheme } from "next-themes";
 
 export function ThemeSwitcher() {
   const { setTheme, theme } = useTheme();

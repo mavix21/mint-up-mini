@@ -1,8 +1,8 @@
 {
-  "name": "@myapp/contracts",
+  "name": "@mint-up/contracts",
   "devDependencies": {
-    "@myapp/prettier-config": "workspace:*",
-    "@myapp/tsconfig": "workspace:*",
+    "@mint-up/prettier-config": "workspace:*",
+    "@mint-up/tsconfig": "workspace:*",
     "@nomicfoundation/hardhat-ignition": "^0.15.11",
     "@nomicfoundation/hardhat-ignition-viem": "^0.15.11",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.12",
@@ -22,5 +22,5 @@
     "typescript": "catalog:",
     "viem": "^2.28.0"
   },
-  "prettier": "@myapp/prettier-config"
+  "prettier": "@mint-up/prettier-config"
 }

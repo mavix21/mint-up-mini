@@ -1,4 +1,4 @@
-# [Project Name]
+# Mint Up!
 
 Project description
 
@@ -16,7 +16,6 @@ This repository is a pnpm monorepo. It consists of the following main parts:
 - **Next.js 15 & Turbopack:** Modern, fast, and scalable React framework for the frontend.
 
 - **Blockchain Integration (Web3):**
-
   - Utilizes OnchainKit, Wagmi, and Viem for connecting to and interacting with EVM-compatible blockchains.
   - Interacts with smart contracts deployed via the Hardhat project in `packages/contracts`.
   - Supports "Sign-In with Ethereum" (SIWE) via `@reown/appkit-siwe`.
@@ -33,7 +32,7 @@ This repository is a pnpm monorepo. It consists of the following main parts:
 
 - **Robust Form Handling:** Uses `react-hook-form` and `zod` for creating and validating forms.
 
-- **Custom UI Library:** Leverages `@myapp/ui` for a consistent look and feel, built with shadcn/ui components.
+- **Custom UI Library:** Leverages `@mint-up/ui` for a consistent look and feel, built with shadcn/ui components.
 
 - **Server State Management:** Uses `@tanstack/react-query` for managing server state and caching.
 
@@ -56,7 +55,7 @@ Follow these instructions to get the project up and running on your local machin
 
     ```bash
     git clone *repo-url*
-    cd myapp
+    cd mint-up
     ```
 
 2.  **Install dependencies:**

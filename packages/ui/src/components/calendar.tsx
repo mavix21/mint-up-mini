@@ -2,6 +2,8 @@
 
 import type { DayPickerProps } from "react-day-picker";
 import * as React from "react";
+import { Button, buttonVariants } from "@mint-up/ui/components/button";
+import { cn } from "@mint-up/ui/lib/utils";
 import { differenceInCalendarDays } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
@@ -10,9 +12,6 @@ import {
   labelPrevious,
   useDayPicker,
 } from "react-day-picker";
-
-import { Button, buttonVariants } from "@myapp/ui/components/button";
-import { cn } from "@myapp/ui/lib/utils";
 
 export type CalendarProps = DayPickerProps & {
   /**

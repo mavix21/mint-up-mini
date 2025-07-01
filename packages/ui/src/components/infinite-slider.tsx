@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { cn } from "@mint-up/ui/lib/utils";
 import { animate, motion, useMotionValue } from "motion/react";
 import useMeasure from "react-use-measure";
-
-import { cn } from "@myapp/ui/lib/utils";
 
 export type InfiniteSliderProps = {
   children: React.ReactNode;

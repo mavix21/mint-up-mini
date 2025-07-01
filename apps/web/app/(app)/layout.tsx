@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 
-import "@myapp/ui/globals.css";
+import "@mint-up/ui/globals.css";
 
 import type { Metadata } from "next";
 
@@ -17,8 +17,8 @@ const fontMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next.js Monorepo Template",
-  description: "Next.js Monorepo Template",
+  title: "Mint Up!",
+  description: "Mint Up!",
 };
 
 export default function RootLayout({

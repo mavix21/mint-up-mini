@@ -10,11 +10,10 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { cn } from "@mint-up/ui/lib/utils";
 import { XIcon } from "lucide-react";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { createPortal } from "react-dom";
-
-import { cn } from "@myapp/ui/lib/utils";
 
 import useClickOutside from "../hooks/useClickOutside";
 
