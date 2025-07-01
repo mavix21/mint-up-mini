@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
-import { getSession } from "~/auth";
+import { getSession } from "@/auth";
 
-import "~/app/globals.css";
+import "@/src/app/globals.css";
 
-import { Providers } from "~/app/providers";
-import { APP_DESCRIPTION, APP_NAME } from "~/lib/constants";
+import { Providers } from "@/src/app/providers";
+import { APP_DESCRIPTION, APP_NAME } from "@/src/lib/constants";
 
 export const metadata: Metadata = {
   title: APP_NAME,

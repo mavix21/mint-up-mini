@@ -5,10 +5,10 @@ import dynamic from "next/dynamic";
 import { MiniAppProvider } from "@neynar/react";
 import { SessionProvider } from "next-auth/react";
 
-import { SafeFarcasterSolanaProvider } from "~/components/providers/SafeFarcasterSolanaProvider";
+import { SafeFarcasterSolanaProvider } from "@/src/components/providers/SafeFarcasterSolanaProvider";
 
 const WagmiProvider = dynamic(
-  () => import("~/components/providers/WagmiProvider"),
+  () => import("@/src/components/providers/WagmiProvider"),
   {
     ssr: false,
   },

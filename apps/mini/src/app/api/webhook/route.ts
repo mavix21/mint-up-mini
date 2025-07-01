@@ -1,16 +1,16 @@
-import { NextRequest } from "next/server";
+import type { ParseWebhookEvent } from "@farcaster/frame-node";
+import type { NextRequest } from "next/server";
 import {
-  ParseWebhookEvent,
   parseWebhookEvent,
   verifyAppKeyWithNeynar,
 } from "@farcaster/frame-node";
 
-import { APP_NAME } from "~/lib/constants";
+import { APP_NAME } from "@/src/lib/constants";
 import {
   deleteUserNotificationDetails,
   setUserNotificationDetails,
-} from "~/lib/kv";
-import { sendMiniAppNotification } from "~/lib/notifs";
+} from "@/src/lib/kv";
+import { sendMiniAppNotification } from "@/src/lib/notifs";
 
 export async function POST(request: NextRequest) {
   // If Neynar is enabled, we don't need to handle webhooks here

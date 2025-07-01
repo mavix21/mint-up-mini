@@ -1,10 +1,10 @@
-import { NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import { notificationDetailsSchema } from "@farcaster/frame-sdk";
 import { z } from "zod";
 
-import { setUserNotificationDetails } from "~/lib/kv";
-import { sendNeynarMiniAppNotification } from "~/lib/neynar";
-import { sendMiniAppNotification } from "~/lib/notifs";
+import { setUserNotificationDetails } from "@/src/lib/kv";
+import { sendNeynarMiniAppNotification } from "@/src/lib/neynar";
+import { sendMiniAppNotification } from "@/src/lib/notifs";
 
 const requestSchema = z.object({
   fid: z.number(),

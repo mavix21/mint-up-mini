@@ -1,7 +1,12 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
-import { APP_DESCRIPTION, APP_NAME, APP_OG_IMAGE_URL } from "~/lib/constants";
-import { getMiniAppEmbedMetadata } from "~/lib/utils";
+import {
+  APP_DESCRIPTION,
+  APP_NAME,
+  APP_OG_IMAGE_URL,
+} from "@/src/lib/constants";
+import { getMiniAppEmbedMetadata } from "@/src/lib/utils";
+
 import App from "./app";
 
 export const revalidate = 300;
