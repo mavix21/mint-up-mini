@@ -1,8 +1,5 @@
-import {
-  Configuration,
-  NeynarAPIClient,
-  WebhookUserCreated,
-} from "@neynar/nodejs-sdk";
+import type { WebhookUserCreated } from "@neynar/nodejs-sdk";
+import { Configuration, NeynarAPIClient } from "@neynar/nodejs-sdk";
 
 import { APP_URL } from "./constants";
 

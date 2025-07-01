@@ -1,7 +1,10 @@
-import { FrameNotificationDetails } from "@farcaster/frame-sdk";
+import type { notificationDetailsSchema } from "@farcaster/frame-sdk";
+import type { z } from "zod";
 import { Redis } from "@upstash/redis";
 
 import { APP_NAME } from "./constants";
+
+type FrameNotificationDetails = z.infer<typeof notificationDetailsSchema>;
 
 // In-memory fallback storage
 const localStore = new Map<string, FrameNotificationDetails>();
@@ -26,7 +29,7 @@ export async function getUserNotificationDetails(
   if (redis) {
     return await redis.get<FrameNotificationDetails>(key);
   }
-  return localStore.get(key) || null;
+  return localStore.get(key) ?? null;
 }
 
 export async function setUserNotificationDetails(
