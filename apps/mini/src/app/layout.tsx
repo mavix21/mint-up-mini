@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
-import { getSession } from "~/auth"
+import { getSession } from "~/auth";
+
 import "~/app/globals.css";
+
 import { Providers } from "~/app/providers";
-import { APP_NAME, APP_DESCRIPTION } from "~/lib/constants";
+import { APP_DESCRIPTION, APP_NAME } from "~/lib/constants";
 
 export const metadata: Metadata = {
   title: APP_NAME,
@@ -14,8 +16,8 @@ export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {  
-  const session = await getSession()
+}>) {
+  const session = await getSession();
 
   return (
     <html lang="en">
