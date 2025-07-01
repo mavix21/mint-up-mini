@@ -1,0 +1,35 @@
+{
+  "name": "myapp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo watch dev --continue",
+    "dev:next": "turbo watch dev -F web...",
+    "db:push": "turbo -F @myapp/db push",
+    "db:studio": "turbo -F @myapp/db studio",
+    "format": "turbo run format --continue -- --cache --cache-location .cache/.prettiercache",
+    "format:fix": "turbo run format --continue -- --write --cache --cache-location .cache/.prettiercache",
+    "lint": "turbo run lint --continue -- --cache --cache-location .cache/.eslintcache",
+    "lint:fix": "turbo run lint --continue -- --fix --cache --cache-location .cache/.eslintcache",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo run clean",
+    "test:web": "turbo run test --continue --filter=web...",
+    "typecheck": "turbo run typecheck"
+  },
+  "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.2",
+    "@myapp/prettier-config": "workspace:*",
+    "@turbo/gen": "^2.5.4",
+    "@types/node": "catalog:",
+    "prettier": "catalog:",
+    "prettier-plugin-tailwindcss": "^0.6.13",
+    "turbo": "^2.5.4",
+    "typescript": "catalog:"
+  },
+  "packageManager": "pnpm@10.12.4+sha512.5ea8b0deed94ed68691c9bad4c955492705c5eeb8a87ef86bc62c74a26b037b08ff9570f108b2e4dbd1dd1a9186fea925e527f141c648e85af45631074680184",
+  "engines": {
+    "node": ">=20"
+  },
+  "prettier": "@myapp/prettier-config"
+}
