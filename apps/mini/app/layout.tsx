@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { getSession } from "@/auth";
 
-import "./globals.css";
+import "@mint-up/ui/globals.css";
 
 import { APP_DESCRIPTION, APP_NAME } from "@/src/lib/constants";
 
