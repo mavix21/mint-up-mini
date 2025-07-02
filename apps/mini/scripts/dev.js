@@ -5,8 +5,8 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import localtunnel from "localtunnel";
 
-// Load environment variables
-dotenv.config({ path: ".env.local" });
+// Environment variables are already loaded by the with-env wrapper
+// No need to load them again here
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(path.normalize(path.join(__dirname, "..")));
