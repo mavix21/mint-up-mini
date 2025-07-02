@@ -11,7 +11,7 @@ import {
 import { base, celo, degen, mainnet, optimism, unichain } from "wagmi/chains";
 import { coinbaseWallet, metaMask } from "wagmi/connectors";
 
-import { APP_ICON_URL, APP_NAME, APP_URL } from "~/lib/constants";
+import { APP_ICON_URL, APP_NAME, APP_URL } from "@/src/lib/constants";
 
 // Custom hook for Coinbase Wallet detection and auto-connection
 function useCoinbaseWalletAutoConnect() {
@@ -40,7 +40,7 @@ function useCoinbaseWalletAutoConnect() {
   useEffect(() => {
     // Auto-connect if in Coinbase Wallet and not already connected
     if (isCoinbaseWallet && !isConnected) {
-      connect({ connector: connectors[1] }); // Coinbase Wallet connector
+      connect({ connector: connectors[1]! }); // Coinbase Wallet connector
     }
   }, [isCoinbaseWallet, isConnected, connect, connectors]);
 

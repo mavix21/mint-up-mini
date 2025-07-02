@@ -2,7 +2,6 @@ import { spawn } from "child_process";
 import { createServer } from "net";
 import path from "path";
 import { fileURLToPath } from "url";
-import dotenv from "dotenv";
 import localtunnel from "localtunnel";
 
 // Environment variables are already loaded by the with-env wrapper

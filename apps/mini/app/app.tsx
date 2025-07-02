@@ -2,15 +2,15 @@
 
 import dynamic from "next/dynamic";
 
-import { APP_NAME } from "@/src/lib/constants";
+import { APP_NAME } from "../src/lib/constants";
 
 // note: dynamic import is required for components that use the Frame SDK
-const Demo = dynamic(() => import("@/src/components/Demo"), {
+const AppComponent = dynamic(() => import("@/src/components/App"), {
   ssr: false,
 });
 
 export default function App(
   { title }: { title?: string } = { title: APP_NAME },
 ) {
-  return <Demo title={title} />;
+  return <AppComponent title={title} />;
 }

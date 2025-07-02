@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 
 import { getSession } from "@/auth";
 
-import "@/src/app/globals.css";
+import "./globals.css";
 
-import { Providers } from "@/src/app/providers";
 import { APP_DESCRIPTION, APP_NAME } from "@/src/lib/constants";
+
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: APP_NAME,
