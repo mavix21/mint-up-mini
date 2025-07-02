@@ -12,9 +12,8 @@ const yellow = "\x1b[33m";
 const italic = "\x1b[3m";
 const reset = "\x1b[0m";
 
-// Load environment variables in specific order
-// First load .env for main config
-dotenv.config({ path: ".env" });
+// Environment variables are already loaded by the with-env wrapper
+// No need to load them again here
 
 async function lookupFidByCustodyAddress(custodyAddress, apiKey) {
   if (!apiKey) {
@@ -49,24 +48,28 @@ async function lookupFidByCustodyAddress(custodyAddress, apiKey) {
 
 async function loadEnvLocal() {
   try {
-    if (fs.existsSync(".env.local")) {
+    const workspaceRoot = path.join(projectRoot, "../..");
+    const envLocalPath = path.join(workspaceRoot, ".env.local");
+
+    if (fs.existsSync(envLocalPath)) {
       const { loadLocal } = await inquirer.prompt([
         {
           type: "confirm",
           name: "loadLocal",
           message:
-            "Found .env.local, likely created by the install script - would you like to load its values?",
+            "Found .env.local in workspace root, likely created by the install script - would you like to load its values?",
           default: false,
         },
       ]);
 
       if (loadLocal) {
-        console.log("Loading values from .env.local...");
-        const localEnv = dotenv.parse(fs.readFileSync(".env.local"));
+        console.log("Loading values from workspace .env.local...");
+        const localEnv = dotenv.parse(fs.readFileSync(envLocalPath));
 
-        // Copy all values except SEED_PHRASE to .env
-        const envContent = fs.existsSync(".env")
-          ? fs.readFileSync(".env", "utf8") + "\n"
+        // Copy all values except SEED_PHRASE to workspace .env
+        const envPath = path.join(workspaceRoot, ".env");
+        const envContent = fs.existsSync(envPath)
+          ? fs.readFileSync(envPath, "utf8") + "\n"
           : "";
         let newEnvContent = envContent;
 
@@ -81,22 +84,24 @@ async function loadEnvLocal() {
           }
         }
 
-        // Write updated content to .env
-        fs.writeFileSync(".env", newEnvContent);
-        console.log("✅ Values from .env.local have been written to .env");
+        // Write updated content to workspace .env
+        fs.writeFileSync(envPath, newEnvContent);
+        console.log(
+          "✅ Values from .env.local have been written to workspace .env",
+        );
       }
     }
 
     // Always try to load SEED_PHRASE from .env.local
-    if (fs.existsSync(".env.local")) {
-      const localEnv = dotenv.parse(fs.readFileSync(".env.local"));
+    if (fs.existsSync(envLocalPath)) {
+      const localEnv = dotenv.parse(fs.readFileSync(envLocalPath));
       if (localEnv.SEED_PHRASE) {
         process.env.SEED_PHRASE = localEnv.SEED_PHRASE;
       }
     }
   } catch (error) {
     // Error reading .env.local, which is fine
-    console.log("Note: No .env.local file found");
+    console.log("Note: No .env.local file found in workspace root");
   }
 }
 
@@ -386,8 +391,9 @@ async function main() {
       "\n✅ Mini app manifest generated" + (seedPhrase ? " and signed" : ""),
     );
 
-    // Read existing .env file or create new one
-    const envPath = path.join(projectRoot, ".env");
+    // Read existing .env file or create new one in workspace root
+    const workspaceRoot = path.join(projectRoot, "../..");
+    const envPath = path.join(workspaceRoot, ".env");
     let envContent = fs.existsSync(envPath)
       ? fs.readFileSync(envPath, "utf8")
       : "";
@@ -444,7 +450,7 @@ async function main() {
     // Write updated .env file
     fs.writeFileSync(envPath, envContent);
 
-    console.log("\n✅ Environment variables updated");
+    console.log("\n✅ Environment variables updated in workspace .env");
 
     // Run next build
     console.log("\nBuilding Next.js application...");
@@ -461,7 +467,7 @@ async function main() {
       "\n✨ Build complete! Your mini app is ready for deployment. 🪐",
     );
     console.log(
-      "📝 Make sure to configure the environment variables from .env in your hosting provider",
+      "📝 Make sure to configure the environment variables from workspace .env in your hosting provider",
     );
   } catch (error) {
     console.error("\n❌ Error:", error.message);
