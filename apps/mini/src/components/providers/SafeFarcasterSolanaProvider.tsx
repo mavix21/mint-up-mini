@@ -10,10 +10,10 @@ const FarcasterSolanaProvider = dynamic(
   { ssr: false },
 );
 
-type SafeFarcasterSolanaProviderProps = {
+interface SafeFarcasterSolanaProviderProps {
   endpoint: string;
   children: React.ReactNode;
-};
+}
 
 const SolanaProviderContext = createContext<{ hasSolanaProvider: boolean }>({
   hasSolanaProvider: false,
@@ -30,7 +30,7 @@ export function SafeFarcasterSolanaProvider({
   useEffect(() => {
     if (!isClient) return;
     let cancelled = false;
-    (async () => {
+    const checkSolanaProvider = async () => {
       try {
         const provider = await sdk.wallet.getSolanaProvider();
         if (!cancelled) {
@@ -45,7 +45,8 @@ export function SafeFarcasterSolanaProvider({
           setChecked(true);
         }
       }
-    })();
+    };
+    checkSolanaProvider();
     return () => {
       cancelled = true;
     };
