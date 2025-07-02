@@ -12,15 +12,16 @@
   },
   "types": "./index.d.ts",
   "scripts": {
-    "dev": "node scripts/dev.js",
-    "build": "node scripts/build.js",
+    "dev": "pnpm with-env node scripts/dev.js",
+    "build": "pnpm with-env node scripts/build.js",
     "build:raw": "next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "deploy:vercel": "node scripts/deploy.js",
     "deploy:raw": "vercel --prod",
-    "cleanup": "lsof -ti :3000 | xargs kill -9"
+    "cleanup": "lsof -ti :3000 | xargs kill -9",
+    "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
     "@farcaster/auth-client": ">=0.3.0 <1.0.0",
@@ -43,6 +44,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.7",
+    "inquirer": "^12.6.3",
     "lucide-react": "^0.469.0",
     "mipd": "^0.0.7",
     "next": "^15",
@@ -63,6 +65,7 @@
     "@types/react-dom": "catalog:react19",
     "@vercel/sdk": "^1.9.0",
     "crypto": "^1.0.1",
+    "dotenv-cli": "^8.0.0",
     "eslint": "catalog:",
     "localtunnel": "^2.0.2",
     "pino-pretty": "^13.0.0",
