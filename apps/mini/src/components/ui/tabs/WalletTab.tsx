@@ -18,7 +18,7 @@ import { base, degen, mainnet, optimism, unichain } from "wagmi/chains";
 
 import { SendEth } from "@/src/components/ui/wallet/SendEth";
 import { SendSolana } from "@/src/components/ui/wallet/SendSolana";
-import { SignEvmMessage } from "@/src/components/ui/wallet/SignEVMMessage";
+import { SignEvmMessage } from "@/src/components/ui/wallet/SignEvmMessage";
 import { SignSolanaMessage } from "@/src/components/ui/wallet/SignSolanaMessage";
 import { APP_NAME, USE_WALLET } from "@/src/lib/constants";
 import { renderError } from "@/src/lib/errorUtils";
