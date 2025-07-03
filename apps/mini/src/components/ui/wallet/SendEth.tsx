@@ -8,9 +8,10 @@ import {
 } from "wagmi";
 import { base } from "wagmi/chains";
 
+import { Button } from "@mint-up/ui/components/button";
+
 import { renderError } from "../../../lib/errorUtils";
 import { truncateAddress } from "../../../lib/truncateAddress";
-import { Button } from "../Button";
 
 /**
  * SendEth component handles sending ETH transactions to protocol guild addresses.
@@ -86,7 +87,7 @@ export function SendEth() {
       <Button
         onClick={sendEthTransaction}
         disabled={!isConnected || isEthTransactionPending}
-        isLoading={isEthTransactionPending}
+        loading={isEthTransactionPending}
       >
         Send Transaction (eth)
       </Button>

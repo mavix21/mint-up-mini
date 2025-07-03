@@ -2,8 +2,9 @@
 
 import { useCallback, useState } from "react";
 
+import { Button } from "@mint-up/ui/components/button";
+
 import { renderError } from "../../../lib/errorUtils";
-import { Button } from "../Button";
 
 interface SignSolanaMessageProps {
   signMessage?: (message: Uint8Array) => Promise<Uint8Array>;
@@ -72,7 +73,7 @@ export function SignSolanaMessage({ signMessage }: SignSolanaMessageProps) {
       <Button
         onClick={handleSignMessage}
         disabled={signPending}
-        isLoading={signPending}
+        loading={signPending}
         className="mb-4"
       >
         Sign Message

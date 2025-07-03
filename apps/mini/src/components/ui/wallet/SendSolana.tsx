@@ -7,9 +7,10 @@ import {
 } from "@solana/wallet-adapter-react";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 
+import { Button } from "@mint-up/ui/components/button";
+
 import { renderError } from "../../../lib/errorUtils";
 import { truncateAddress } from "../../../lib/truncateAddress";
-import { Button } from "../Button";
 
 /**
  * SendSolana component handles sending SOL transactions on Solana.
@@ -101,7 +102,7 @@ export function SendSolana() {
       <Button
         onClick={sendSolanaTransaction}
         disabled={solanaTransactionState.status === "pending"}
-        isLoading={solanaTransactionState.status === "pending"}
+        loading={solanaTransactionState.status === "pending"}
         className="mb-4"
       >
         Send Transaction (sol)

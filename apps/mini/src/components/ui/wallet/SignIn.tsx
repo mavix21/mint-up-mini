@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import sdk, { SignIn as SignInCore } from "@farcaster/frame-sdk";
 import { getCsrfToken, signIn, signOut, useSession } from "next-auth/react";
 
-import { Button } from "../Button";
+import { Button } from "@mint-up/ui/components/button";
 
 /**
  * SignIn component handles Farcaster authentication using Sign-In with Farcaster (SIWF).
