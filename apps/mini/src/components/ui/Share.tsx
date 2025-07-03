@@ -4,7 +4,7 @@ import type { ComposeCast } from "@farcaster/frame-sdk";
 import { useCallback, useEffect, useState } from "react";
 import { useMiniApp } from "@neynar/react";
 
-import { Button } from "./Button";
+import { Button } from "@mint-up/ui/components/button";
 
 interface EmbedConfig {
   path?: string;
@@ -21,31 +21,31 @@ interface ShareButtonProps {
   buttonText: string;
   cast: CastConfig;
   className?: string;
-  isLoading?: boolean;
+  loading?: boolean;
 }
 
 export function ShareButton({
   buttonText,
   cast,
   className = "",
-  isLoading = false,
+  loading = false,
 }: ShareButtonProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [bestFriends, setBestFriends] = useState<
     { fid: number; username: string }[] | null
   >(null);
-  const [isLoadingBestFriends, setIsLoadingBestFriends] = useState(false);
+  const [loadingBestFriends, setLoadingBestFriends] = useState(false);
   const { context, actions } = useMiniApp();
 
   // Fetch best friends if needed
   useEffect(() => {
     if (cast.bestFriends && context?.user?.fid) {
-      setIsLoadingBestFriends(true);
+      setLoadingBestFriends(true);
       fetch(`/api/best-friends?fid=${context.user.fid}`)
         .then((res) => res.json())
         .then((data) => setBestFriends(data.bestFriends))
         .catch((err) => console.error("Failed to fetch best friends:", err))
-        .finally(() => setIsLoadingBestFriends(false));
+        .finally(() => setLoadingBestFriends(false));
     }
   }, [cast.bestFriends, context?.user?.fid]);
 
@@ -53,7 +53,7 @@ export function ShareButton({
     try {
       setIsProcessing(true);
 
-      let finalText = cast.text || "";
+      let finalText = cast.text ?? "";
 
       // Process best friends if enabled and data is loaded
       if (cast.bestFriends) {
@@ -81,13 +81,13 @@ export function ShareButton({
           }
           if (embed.path) {
             const baseUrl =
-              process.env.NEXT_PUBLIC_URL || window.location.origin;
+              process.env.NEXT_PUBLIC_URL ?? window.location.origin;
             const url = new URL(`${baseUrl}${embed.path}`);
 
             // Add UTM parameters
             url.searchParams.set(
               "utm_source",
-              `share-cast-${context?.user?.fid || "unknown"}`,
+              `share-cast-${context?.user?.fid ?? "unknown"}`,
             );
 
             // If custom image generator is provided, use it
@@ -98,7 +98,7 @@ export function ShareButton({
 
             return url.toString();
           }
-          return embed.url || "";
+          return embed.url ?? "";
         }),
       );
 
@@ -121,8 +121,8 @@ export function ShareButton({
     <Button
       onClick={handleShare}
       className={className}
-      isLoading={isLoading || isProcessing}
-      disabled={isLoadingBestFriends}
+      loading={loading || isProcessing}
+      disabled={loadingBestFriends}
     >
       {buttonText}
     </Button>

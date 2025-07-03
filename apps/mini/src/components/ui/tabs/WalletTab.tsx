@@ -16,6 +16,8 @@ import {
 } from "wagmi";
 import { base, degen, mainnet, optimism, unichain } from "wagmi/chains";
 
+import { Button } from "@mint-up/ui/components/button";
+
 import { SendEth } from "@/src/components/ui/wallet/SendEth";
 import { SendSolana } from "@/src/components/ui/wallet/SendSolana";
 import { SignEvmMessage } from "@/src/components/ui/wallet/SignEvmMessage";
@@ -23,8 +25,6 @@ import { SignSolanaMessage } from "@/src/components/ui/wallet/SignSolanaMessage"
 import { APP_NAME, USE_WALLET } from "@/src/lib/constants";
 import { renderError } from "@/src/lib/errorUtils";
 import { truncateAddress } from "@/src/lib/truncateAddress";
-
-import { Button } from "../Button";
 
 /**
  * WalletTab component manages wallet-related UI for both EVM and Solana chains.
@@ -336,7 +336,7 @@ export function WalletTab() {
           <Button
             onClick={sendEvmContractTransaction}
             disabled={!isConnected || isEvmTransactionPending}
-            isLoading={isEvmTransactionPending}
+            loading={isEvmTransactionPending}
             className="w-full"
           >
             Send Transaction (contract)
@@ -358,7 +358,7 @@ export function WalletTab() {
           <Button
             onClick={signTyped}
             disabled={!isConnected || isEvmSignTypedDataPending}
-            isLoading={isEvmSignTypedDataPending}
+            loading={isEvmSignTypedDataPending}
             className="w-full"
           >
             Sign Typed Data
@@ -367,7 +367,7 @@ export function WalletTab() {
           <Button
             onClick={handleSwitchChain}
             disabled={isChainSwitchPending}
-            isLoading={isChainSwitchPending}
+            loading={isChainSwitchPending}
             className="w-full"
           >
             Switch to {nextChain.name}

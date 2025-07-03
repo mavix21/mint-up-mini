@@ -4,7 +4,8 @@ import type { Haptics } from "@farcaster/frame-sdk";
 import { useCallback, useState } from "react";
 import { useMiniApp } from "@neynar/react";
 
-import { Button } from "../Button";
+import { Button } from "@mint-up/ui/components/button";
+
 import { ShareButton } from "../Share";
 import { SignIn } from "../wallet/SignIn";
 
@@ -189,7 +190,7 @@ export function ActionsTab() {
               e.target.value as Haptics.ImpactOccurredType,
             )
           }
-          className="focus:ring-primary w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:ring-2 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+          className="focus:ring-primary w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
         >
           <option value={"light"}>Light</option>
           <option value={"medium"}>Medium</option>
