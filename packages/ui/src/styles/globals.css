@@ -196,10 +196,6 @@
   body {
     @apply bg-background text-foreground;
   }
-
-  .active-nav-item + div svg {
-    @apply text-active-foreground;
-  }
 }
 
 @utility faded-bottom {
