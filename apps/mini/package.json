@@ -66,6 +66,7 @@
     "localtunnel": "^2.0.2",
     "pino-pretty": "^13.0.0",
     "postcss": "^8.5.6",
+    "jiti": "^1.21.7",
     "typescript": "catalog:"
   },
   "prettier": "@mint-up/prettier-config"
