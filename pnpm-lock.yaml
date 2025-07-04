@@ -82,11 +82,11 @@ importers:
         specifier: 0.1.2
         version: 0.1.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
       '@farcaster/frame-sdk':
-        specifier: 0.1.2
-        version: 0.1.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
+        specifier: ^0.0.64
+        version: 0.0.64(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
       '@farcaster/frame-wagmi-connector':
-        specifier: 1.0.0
-        version: 1.0.0(@farcaster/frame-sdk@0.1.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(@wagmi/core@2.17.3(@tanstack/query-core@5.81.5)(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))
+        specifier: '>=0.0.19 <1.0.0'
+        version: 0.0.53(@farcaster/frame-sdk@0.0.64(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(@wagmi/core@2.17.3(@tanstack/query-core@5.81.5)(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@19.1.0))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))
       '@farcaster/mini-app-solana':
         specifier: 1.0.2
         version: 1.0.2(@farcaster/miniapp-sdk@0.1.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)))(@solana/wallet-adapter-react@0.15.39(@solana/web3.js@1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10))(bs58@5.0.0)(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(bufferutil@4.0.9)(react@19.1.0)(utf-8-validate@5.0.10))(react@19.1.0))(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)
@@ -101,7 +101,7 @@ importers:
         version: 3.21.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
       '@neynar/react':
         specifier: ^1.2.5
-        version: 1.2.5(@farcaster/frame-sdk@0.1.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(@pigment-css/react@0.0.30(@types/react@19.1.8)(react@19.1.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(swr@2.3.3(react@19.1.0))(typescript@5.8.3)
+        version: 1.2.5(@farcaster/frame-sdk@0.0.64(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(@pigment-css/react@0.0.30(@types/react@19.1.8)(react@19.1.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(swr@2.3.3(react@19.1.0))(typescript@5.8.3)
       '@solana/wallet-adapter-react':
         specifier: ^0.15.39
         version: 0.15.39(@solana/web3.js@1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10))(bs58@5.0.0)(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(bufferutil@4.0.9)(react@19.1.0)(utf-8-validate@5.0.10))(react@19.1.0)
@@ -1632,21 +1632,22 @@ packages:
       react: '>= 17'
       react-dom: '>= 17'
 
+  '@farcaster/frame-core@0.2.0':
+    resolution: {integrity: sha512-HNxg7A4p5W/HqMMs6CKKJXbhHFpLYrlcOGlvc9k9tRiGBSo8JjAZhyjVUfaXqSIvN0ItCGBVmtB0ULzpktMpTA==}
+
   '@farcaster/frame-core@0.3.2':
     resolution: {integrity: sha512-SqctK+/LWsrsTRxQSRvpmvPR9lw01Zwz4g6FLszJ7M3SMyNt0K2hTWVD+RBh9XljDQVbx2LVG4pbi+0QlgzcNw==}
 
   '@farcaster/frame-node@0.1.2':
     resolution: {integrity: sha512-MOEoh2Yv1JU39oFC09azY9O3yfoNJGmLyTyKAb6OFHPMN4AQ/ZyESFm9rqsYT2nZkoprng0ifD3Y34wLArMLUw==}
 
-  '@farcaster/frame-sdk@0.1.2':
-    resolution: {integrity: sha512-5dLM492bRIhuoJL/e7Y1O0OOhGJ3AlQ93vIvEgspWGtNsEX+W7yg9f5/yBXM6EOKCxQ+JZhkKhePMP1QwL6ysA==}
-    engines: {node: '>=22.11.0'}
+  '@farcaster/frame-sdk@0.0.64':
+    resolution: {integrity: sha512-mrFXmkRc5RR6/PDaN3Rho4YFEh2oI2s9eg5NA9pHUEN9oPt4Sd5ShdeX/0/uVxOk3/EbVL69lGIGce5hYbUyhw==}
 
-  '@farcaster/frame-wagmi-connector@1.0.0':
-    resolution: {integrity: sha512-65zmI54PrJO88CYM3QrEXKgQIb+DD/h/U32tAaSRx+dT/AIG5w0tSQgON1zfLinNK8NYeBVRD40DBbR2vly3AQ==}
-    engines: {node: '>=22.11.0'}
+  '@farcaster/frame-wagmi-connector@0.0.53':
+    resolution: {integrity: sha512-+fonXzzj3KxTeUHbtt7lZUC4v/MhC2Y2KpQw7WcVamiDwedm+jTMqBIdrMrWRej/HSWrBQ1rDIOlsWxnv9CDng==}
     peerDependencies:
-      '@farcaster/frame-sdk': ^0.1.0
+      '@farcaster/frame-sdk': ^0.0.64
       '@wagmi/core': ^2.14.1
       viem: ^2.21.55
 
@@ -10229,6 +10230,17 @@ snapshots:
       - utf-8-validate
       - zod
 
+  '@farcaster/frame-core@0.2.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)':
+    dependencies:
+      '@solana/web3.js': 1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
+      ox: 0.4.4(typescript@5.8.3)(zod@3.25.67)
+      zod: 3.25.67
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - typescript
+      - utf-8-validate
+
   '@farcaster/frame-core@0.3.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@farcaster/miniapp-core': 0.3.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
@@ -10253,9 +10265,9 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@farcaster/frame-sdk@0.1.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)':
+  '@farcaster/frame-sdk@0.0.64(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)':
     dependencies:
-      '@farcaster/miniapp-sdk': 0.1.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
+      '@farcaster/frame-core': 0.2.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
       '@farcaster/quick-auth': 0.0.6(typescript@5.8.3)
       comlink: 4.4.2
       eventemitter3: 5.0.1
@@ -10267,10 +10279,10 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@farcaster/frame-wagmi-connector@1.0.0(@farcaster/frame-sdk@0.1.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(@wagmi/core@2.17.3(@tanstack/query-core@5.81.5)(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))':
+  '@farcaster/frame-wagmi-connector@0.0.53(@farcaster/frame-sdk@0.0.64(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(@wagmi/core@2.17.3(@tanstack/query-core@5.81.5)(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@19.1.0))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))':
     dependencies:
-      '@farcaster/frame-sdk': 0.1.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
-      '@wagmi/core': 2.17.3(@tanstack/query-core@5.81.5)(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))
+      '@farcaster/frame-sdk': 0.0.64(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
+      '@wagmi/core': 2.17.3(@tanstack/query-core@5.81.5)(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@19.1.0))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))
       viem: 2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
 
   '@farcaster/mini-app-solana@1.0.2(@farcaster/miniapp-sdk@0.1.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)))(@solana/wallet-adapter-react@0.15.39(@solana/web3.js@1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10))(bs58@5.0.0)(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(bufferutil@4.0.9)(react@19.1.0)(utf-8-validate@5.0.10))(react@19.1.0))(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)':
@@ -11023,9 +11035,9 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@neynar/react@1.2.5(@farcaster/frame-sdk@0.1.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(@pigment-css/react@0.0.30(@types/react@19.1.8)(react@19.1.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(swr@2.3.3(react@19.1.0))(typescript@5.8.3)':
+  '@neynar/react@1.2.5(@farcaster/frame-sdk@0.0.64(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(@pigment-css/react@0.0.30(@types/react@19.1.8)(react@19.1.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(swr@2.3.3(react@19.1.0))(typescript@5.8.3)':
     dependencies:
-      '@farcaster/frame-sdk': 0.1.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
+      '@farcaster/frame-sdk': 0.0.64(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
       '@pigment-css/react': 0.0.30(@types/react@19.1.8)(react@19.1.0)(typescript@5.8.3)
       hls.js: 1.6.5
       mipd: 0.0.7(typescript@5.8.3)
@@ -13104,13 +13116,13 @@ snapshots:
     dependencies:
       zod: 3.25.67
 
-  '@wagmi/connectors@5.8.5(@react-native-async-storage/async-storage@1.24.0(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(bufferutil@4.0.9)(react@19.1.0)(utf-8-validate@5.0.10)))(@types/react@19.1.8)(@upstash/redis@1.35.1)(@wagmi/core@2.17.3(@tanstack/query-core@5.81.5)(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67)':
+  '@wagmi/connectors@5.8.5(@react-native-async-storage/async-storage@1.24.0(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(bufferutil@4.0.9)(react@19.1.0)(utf-8-validate@5.0.10)))(@types/react@19.1.8)(@upstash/redis@1.35.1)(@wagmi/core@2.17.3(@tanstack/query-core@5.81.5)(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@19.1.0))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67)':
     dependencies:
       '@coinbase/wallet-sdk': 4.3.3
       '@metamask/sdk': 0.32.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@safe-global/safe-apps-provider': 0.18.6(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
       '@safe-global/safe-apps-sdk': 9.1.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
-      '@wagmi/core': 2.17.3(@tanstack/query-core@5.81.5)(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))
+      '@wagmi/core': 2.17.3(@tanstack/query-core@5.81.5)(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@19.1.0))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))
       '@walletconnect/ethereum-provider': 2.21.1(@react-native-async-storage/async-storage@1.24.0(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(bufferutil@4.0.9)(react@19.1.0)(utf-8-validate@5.0.10)))(@types/react@19.1.8)(@upstash/redis@1.35.1)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
       cbw-sdk: '@coinbase/wallet-sdk@3.9.3'
       viem: 2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
@@ -13149,21 +13161,6 @@ snapshots:
       mipd: 0.0.7(typescript@5.8.3)
       viem: 2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
       zustand: 5.0.0(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(use-sync-external-store@1.4.0(react@19.1.0))
-    optionalDependencies:
-      '@tanstack/query-core': 5.81.5
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - '@types/react'
-      - immer
-      - react
-      - use-sync-external-store
-
-  '@wagmi/core@2.17.3(@tanstack/query-core@5.81.5)(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))':
-    dependencies:
-      eventemitter3: 5.0.1
-      mipd: 0.0.7(typescript@5.8.3)
-      viem: 2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
-      zustand: 5.0.0(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))
     optionalDependencies:
       '@tanstack/query-core': 5.81.5
       typescript: 5.8.3
@@ -19439,7 +19436,7 @@ snapshots:
   wagmi@2.15.6(@react-native-async-storage/async-storage@1.24.0(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(bufferutil@4.0.9)(react@19.1.0)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.81.5)(@tanstack/react-query@5.81.5(react@19.1.0))(@types/react@19.1.8)(@upstash/redis@1.35.1)(bufferutil@4.0.9)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67):
     dependencies:
       '@tanstack/react-query': 5.81.5(react@19.1.0)
-      '@wagmi/connectors': 5.8.5(@react-native-async-storage/async-storage@1.24.0(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(bufferutil@4.0.9)(react@19.1.0)(utf-8-validate@5.0.10)))(@types/react@19.1.8)(@upstash/redis@1.35.1)(@wagmi/core@2.17.3(@tanstack/query-core@5.81.5)(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67)
+      '@wagmi/connectors': 5.8.5(@react-native-async-storage/async-storage@1.24.0(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(bufferutil@4.0.9)(react@19.1.0)(utf-8-validate@5.0.10)))(@types/react@19.1.8)(@upstash/redis@1.35.1)(@wagmi/core@2.17.3(@tanstack/query-core@5.81.5)(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@19.1.0))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67)
       '@wagmi/core': 2.17.3(@tanstack/query-core@5.81.5)(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@19.1.0))(viem@2.31.7(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))
       react: 19.1.0
       use-sync-external-store: 1.4.0(react@19.1.0)
@@ -19722,10 +19719,3 @@ snapshots:
       immer: 10.0.2
       react: 19.1.0
       use-sync-external-store: 1.4.0(react@19.1.0)
-
-  zustand@5.0.0(@types/react@19.1.8)(immer@10.0.2)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0)):
-    optionalDependencies:
-      '@types/react': 19.1.8
-      immer: 10.0.2
-      react: 19.1.0
-      use-sync-external-store: 1.5.0(react@19.1.0)
