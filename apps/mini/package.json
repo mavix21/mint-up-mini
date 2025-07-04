@@ -49,6 +49,7 @@
     "react-dom": "catalog:react19",
     "viem": "^2.23.6",
     "wagmi": "^2.14.12",
+    "@t3-oss/env-nextjs": "^0.13.8",
     "zod": "catalog:"
   },
   "devDependencies": {
