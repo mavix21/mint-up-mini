@@ -1,5 +1,5 @@
 import React from "react";
-import { Calendar, Home, Wallet, Zap } from "lucide-react";
+import { Calendar, Home, Plus, Wallet, Zap } from "lucide-react";
 
 import { Tab } from "@/src/lib/types";
 
@@ -29,6 +29,13 @@ export const Footer: React.FC<FooterProps> = ({
         isActive={activeTab === Tab.Actions}
         Icon={Zap}
         label="Actions"
+      />
+      <BottomTab
+        onClick={() => setActiveTab(Tab.Create)}
+        isActive={activeTab === Tab.Create}
+        Icon={Plus}
+        isCenter={true}
+        label="Create"
       />
       <BottomTab
         onClick={() => setActiveTab(Tab.Context)}

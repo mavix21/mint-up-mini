@@ -4,4 +4,5 @@ export enum Tab {
   Actions = "actions",
   Context = "context",
   Wallet = "wallet",
+  Create = "create",
 }
