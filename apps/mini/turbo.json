@@ -5,6 +5,11 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**", "next-env.d.ts"]
+    },
+    "dev": {
+      "with": ["@mint-up/convex#dev"],
+      "persistent": true,
+      "cache": false
     }
   }
 }
