@@ -56,7 +56,7 @@ export default function App(
     useMiniApp();
 
   // --- Neynar user hook ---
-  const { user: neynarUser } = useNeynarUser(context || undefined);
+  const { user: neynarUser } = useNeynarUser(context ?? undefined);
 
   // --- Effects ---
   /**
