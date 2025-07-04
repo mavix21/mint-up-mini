@@ -1,14 +1,24 @@
+import { useState } from "react";
 import { Award, Calendar, Gamepad2, Gift, MapPin, Users } from "lucide-react";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@mint-up/ui/components/accordion";
+
 import EventCard from "../EventCard";
+import EventQuickViewDialog from "../EventQuickViewDialog";
 import EventTicketCard from "../EventTicketCard";
+import PreviewEventCard from "./PreviewEventCard";
 
 interface LivePreviewProps {
   currentStep: number;
   formData: any;
 }
-
 const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const formatDate = (dateString: string) => {
     if (!dateString) return "TBD";
     const date = new Date(dateString);
@@ -17,17 +27,16 @@ const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
       day: "numeric",
     });
   };
-
   const mockEventData = {
     id: 1,
     title: formData.eventName || "Your Event Title",
     price: formData.ticketPrice === "Free" ? "FREE" : "$25.00",
     date: {
       month: formData.startDate
-        ? formatDate(formData.startDate).split(" ")[0]
+        ? formatDate(formData.startDate).split(" ")[0] || "MAY"
         : "MAY",
       day: formData.startDate
-        ? formatDate(formData.startDate).split(" ")[1]
+        ? formatDate(formData.startDate).split(" ")[1] || "18"
         : "18",
     },
     image:
@@ -37,111 +46,140 @@ const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
     location: formData.location || "San Francisco, CA",
   };
 
+  // Create event data for the dialog using form data
+  const eventForDialog = {
+    id: 1,
+    title: formData.eventName || "Your Event Title",
+    date: formData.startDate
+      ? new Date(formData.startDate).toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      : "Date TBD",
+    location: formData.location || "Location TBD",
+    image:
+      formData.selectedImage ||
+      "/lovable-uploads/4b2dc3f1-b825-4c03-bcb4-8801b06e3c76.png",
+    attendeeCount: 22,
+  };
+  const handleCardClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (currentStep === 1) {
+      setIsDialogOpen(true);
+    }
+  };
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+  };
   return (
-    <div className="sticky top-20">
-      <div className="bg-card rounded-lg border p-6 shadow-sm">
-        {currentStep === 1 && (
-          <div>
-            <h3 className="text-foreground mb-4 text-lg font-semibold">
-              Live Preview: Event Card
-            </h3>
-            <EventCard event={mockEventData} />
-          </div>
-        )}
+    <>
+      <div className="sticky top-20">
+        <div className="bg-card rounded-lg border px-4 py-6 shadow-sm">
+          <h3 className="text-foreground mb-4 text-lg font-semibold">
+            Live Preview
+          </h3>
 
-        {currentStep === 2 && (
-          <div>
-            <h3 className="text-foreground mb-4 text-lg font-semibold">
-              Live Preview: NFT Ticket
-            </h3>
-            <div className="flex justify-center">
-              <EventTicketCard
-                eventName={formData.eventName || "Web3 Developer Meetup"}
-                selectedImage={formData.selectedImage}
-                eventDate={formData.startDate}
-                location={formData.location || "San Francisco"}
-                nftName={formData.nftName || "Web3 Developer Meetup"}
+          {currentStep === 1 && (
+            <div>
+              {/* Event Card Preview */}
+              <PreviewEventCard
+                eventData={mockEventData}
+                onClick={handleCardClick}
               />
             </div>
-          </div>
-        )}
+          )}
 
-        {currentStep === 3 && (
-          <div>
-            <h3 className="text-foreground mb-6 text-lg font-semibold">
-              Live Preview: Full Event Page
-            </h3>
-            <div className="space-y-4">
-              {/* Event Banner */}
-              <div className="relative h-32 overflow-hidden rounded-lg">
-                <img
-                  src={
-                    formData.selectedImage ||
-                    "/lovable-uploads/4b2dc3f1-b825-4c03-bcb4-8801b06e3c76.png"
-                  }
-                  alt="Event banner"
-                  className="h-full w-full object-cover"
+          {currentStep === 2 && (
+            <Accordion type="single" collapsible defaultValue="nft-ticket">
+              <AccordionItem value="event-card">
+                <AccordionTrigger className="text-sm font-medium">
+                  Event Card Preview
+                </AccordionTrigger>
+                <AccordionContent>
+                  <PreviewEventCard
+                    eventData={mockEventData}
+                    onClick={handleCardClick}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="nft-ticket" className="border-b-0">
+                <AccordionTrigger className="text-sm font-medium">
+                  NFT Ticket Preview
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="flex justify-center">
+                    <EventTicketCard
+                      eventName={formData.eventName || "Web3 Developer Meetup"}
+                      selectedImage={
+                        formData.ticketArtwork || formData.selectedImage
+                      }
+                      eventDate={formData.startDate}
+                      location={formData.location || "San Francisco"}
+                      nftName={
+                        formData.nftName ||
+                        formData.eventName ||
+                        "Web3 Developer Meetup"
+                      }
+                    />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          )}
+
+          {currentStep === 3 && (
+            <div className="space-y-6">
+              {/* Event Card */}
+              <div>
+                <h4 className="text-foreground mb-3 text-sm font-medium">
+                  Event Card
+                </h4>
+                <PreviewEventCard
+                  eventData={mockEventData}
+                  onClick={handleCardClick}
                 />
-                <div className="absolute inset-0 bg-black/40" />
-                <div className="absolute bottom-3 left-3 text-white">
-                  <h4 className="font-semibold">
-                    {formData.eventName || "Your Event"}
-                  </h4>
-                </div>
               </div>
 
-              {/* Event Details */}
-              <div className="space-y-3">
-                <div className="text-muted-foreground flex items-center text-sm">
-                  <Calendar className="mr-2 h-4 w-4" />
-                  {formData.startDate
-                    ? new Date(formData.startDate).toLocaleDateString()
-                    : "Date TBD"}
-                </div>
-                <div className="text-muted-foreground flex items-center text-sm">
-                  <MapPin className="mr-2 h-4 w-4" />
-                  {formData.location || "Location TBD"}
-                </div>
-                <div className="text-muted-foreground flex items-center text-sm">
-                  <Users className="mr-2 h-4 w-4" />
-                  {formData.capacity === "Limited"
-                    ? "Limited Capacity"
-                    : "Unlimited Capacity"}
-                </div>
-              </div>
-
-              {/* Engagement Features */}
-              <div className="border-t pt-3">
-                <p className="text-muted-foreground mb-2 text-xs">
-                  Event Features:
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {formData.enableRaffles && (
-                    <div className="bg-primary/10 text-primary flex items-center rounded px-2 py-1 text-xs">
-                      <Gift className="mr-1 h-3 w-3" />
-                      Live Raffles
-                    </div>
-                  )}
-                  {formData.enableTrivia && (
-                    <div className="bg-primary/10 text-primary flex items-center rounded px-2 py-1 text-xs">
-                      <Gamepad2 className="mr-1 h-3 w-3" />
-                      Interactive Trivia
-                    </div>
-                  )}
-                  {formData.autoDeliverPOAPs && (
-                    <div className="bg-primary/10 text-primary flex items-center rounded px-2 py-1 text-xs">
-                      <Award className="mr-1 h-3 w-3" />
-                      POAP Rewards
-                    </div>
-                  )}
+              {/* NFT Ticket */}
+              <div>
+                <h4 className="text-foreground mb-3 text-sm font-medium">
+                  NFT Ticket
+                </h4>
+                <div className="flex justify-center">
+                  <div className="origin-center scale-75">
+                    <EventTicketCard
+                      eventName={formData.eventName || "Web3 Developer Meetup"}
+                      selectedImage={
+                        formData.ticketArtwork || formData.selectedImage
+                      }
+                      eventDate={formData.startDate}
+                      location={formData.location || "San Francisco"}
+                      nftName={
+                        formData.nftName ||
+                        formData.eventName ||
+                        "Web3 Developer Meetup"
+                      }
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+
+      {isDialogOpen && (
+        <EventQuickViewDialog
+          isOpen={isDialogOpen}
+          onClose={handleDialogClose}
+          event={eventForDialog}
+        />
+      )}
+    </>
   );
 };
-
 export default LivePreview;

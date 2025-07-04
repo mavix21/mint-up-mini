@@ -64,22 +64,22 @@ const EventCard = ({ event }: EventCardProps) => {
           </div>
 
           {/* Date Badge */}
-          <div className="bg-primary absolute top-4 left-4 min-w-[60px] rounded-lg px-3 py-2 text-center text-black">
+          <div className="bg-primary absolute left-4 top-4 min-w-[60px] rounded-lg px-3 py-2 text-center text-black">
             <div className="text-xs font-semibold">{event.date.month}</div>
-            <div className="text-lg leading-none font-bold">
+            <div className="text-lg font-bold leading-none">
               {event.date.day}
             </div>
           </div>
 
           {/* Favorite Icon */}
-          <div className="absolute top-4 right-4 rounded-full bg-black/30 p-2 transition-colors hover:bg-black/50">
+          <div className="absolute right-4 top-4 rounded-full bg-black/30 p-2 transition-colors hover:bg-black/50">
             <Heart className="h-5 w-5 text-white" />
           </div>
         </div>
 
         {/* Card Body */}
         <div className="space-y-3 p-4">
-          <h3 className="text-foreground line-clamp-2 text-lg leading-tight font-semibold">
+          <h3 className="text-foreground line-clamp-2 text-lg font-semibold leading-tight">
             {event.title}
           </h3>
 

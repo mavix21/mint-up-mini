@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { Image, Upload } from "lucide-react";
+import Image from "next/image";
+import { Image as Img, Upload, X } from "lucide-react";
 
 import { Button } from "@mint-up/ui/components/button";
 import { Input } from "@mint-up/ui/components/input";
 import { Label } from "@mint-up/ui/components/label";
 import { Textarea } from "@mint-up/ui/components/textarea";
+
+import ImageCropDialog from "./ImageCropDialog";
 
 interface DesignCollectibleStepProps {
   formData: any;
@@ -16,16 +19,34 @@ const DesignCollectibleStep = ({
   updateFormData,
 }: DesignCollectibleStepProps) => {
   const [activeTab, setActiveTab] = useState("nft");
+  const [tempImageSrc, setTempImageSrc] = useState<string | null>(null);
+  const [isCropDialogOpen, setIsCropDialogOpen] = useState(false);
+
+  // Show ticket artwork or event image as fallback, but allow removal
+  const showTicketArtwork = formData.ticketArtwork !== null;
+  const displayImage = formData.ticketArtwork || formData.selectedImage;
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        updateFormData("selectedImage", e.target?.result as string);
+      reader.onload = (event) => {
+        const imageSrc = event.target?.result as string;
+        setTempImageSrc(imageSrc);
+        setIsCropDialogOpen(true);
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleCropComplete = (croppedImageUrl: string) => {
+    updateFormData("ticketArtwork", croppedImageUrl);
+    setTempImageSrc(null);
+  };
+
+  const handleRemoveImage = () => {
+    // Set to null to hide the ticket artwork section entirely
+    updateFormData("ticketArtwork", null);
   };
 
   return (
@@ -62,47 +83,76 @@ const DesignCollectibleStep = ({
 
       {activeTab === "nft" && (
         <div className="space-y-4">
-          {/* Image Upload */}
+          {/* Ticket Artwork Upload */}
           <div>
             <Label className="text-foreground">Ticket Artwork</Label>
-            <div className="mt-1">
-              {formData.selectedImage ? (
-                <div className="relative">
-                  <img
-                    src={formData.selectedImage}
-                    alt="Uploaded artwork"
-                    className="h-48 w-full rounded-lg border object-cover"
-                  />
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="absolute top-2 right-2"
-                    onClick={() => updateFormData("selectedImage", null)}
-                  >
-                    Remove
-                  </Button>
-                </div>
-              ) : (
-                <label className="border-border hover:bg-muted/50 flex h-48 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed transition-colors">
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <Upload className="text-muted-foreground mb-4 h-8 w-8" />
-                    <p className="text-muted-foreground mb-2 text-sm">
-                      <span className="font-semibold">Click to upload</span> or
-                      drag and drop
-                    </p>
-                    <p className="text-muted-foreground text-xs">
-                      PNG, JPG or GIF (MAX. 10MB)
-                    </p>
-                  </div>
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                  />
-                </label>
-              )}
-            </div>
+            <p className="text-muted-foreground mb-2 text-sm">
+              Upload a square image for your NFT ticket (starts with your event
+              image)
+            </p>
+
+            {displayImage && formData.ticketArtwork ? (
+              <div className="border-border relative h-48 w-48 overflow-hidden rounded-lg border-2 border-dashed">
+                <Image
+                  src={displayImage}
+                  alt="Ticket artwork preview"
+                  className="h-full w-full object-cover"
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="bg-background/80 hover:bg-background absolute right-1 top-1 h-6 w-6 p-0"
+                  onClick={handleRemoveImage}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="absolute bottom-2 left-2 text-xs"
+                  onClick={() =>
+                    document.getElementById("ticketImageUpload")?.click()
+                  }
+                >
+                  Change
+                </Button>
+              </div>
+            ) : (
+              <div className="border-border rounded-lg border-2 border-dashed p-6 text-center">
+                <Upload className="text-muted-foreground mx-auto mb-2 h-8 w-8" />
+                <p className="text-muted-foreground mb-2 text-sm">
+                  {formData.selectedImage
+                    ? "Use event image or upload different artwork"
+                    : "Click to upload ticket artwork"}
+                </p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    if (formData.selectedImage && !formData.ticketArtwork) {
+                      updateFormData("ticketArtwork", formData.selectedImage);
+                    } else {
+                      document.getElementById("ticketImageUpload")?.click();
+                    }
+                  }}
+                >
+                  {formData.selectedImage && !formData.ticketArtwork
+                    ? "Use Event Image"
+                    : "Choose File"}
+                </Button>
+              </div>
+            )}
+
+            {/* Single input element outside the conditional */}
+            <input
+              id="ticketImageUpload"
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
           </div>
 
           <div>
@@ -112,7 +162,7 @@ const DesignCollectibleStep = ({
             <Input
               id="nftName"
               placeholder="e.g., Mint Up! Genesis Pass"
-              value={formData.nftName}
+              value={formData.nftName || formData.eventName || ""}
               onChange={(e) => updateFormData("nftName", e.target.value)}
               className="mt-1"
             />
@@ -136,7 +186,7 @@ const DesignCollectibleStep = ({
 
       {activeTab === "poap" && (
         <div className="py-12 text-center">
-          <Image className="text-muted-foreground mx-auto mb-4 h-16 w-16" />
+          <Img className="text-muted-foreground mx-auto mb-4 h-16 w-16" />
           <h3 className="text-foreground mb-2 text-lg font-semibold">
             POAP Integration
           </h3>
@@ -145,6 +195,19 @@ const DesignCollectibleStep = ({
             for your events.
           </p>
         </div>
+      )}
+
+      {/* Image Crop Dialog */}
+      {tempImageSrc && (
+        <ImageCropDialog
+          isOpen={isCropDialogOpen}
+          onClose={() => {
+            setIsCropDialogOpen(false);
+            setTempImageSrc(null);
+          }}
+          imageSrc={tempImageSrc}
+          onCropComplete={handleCropComplete}
+        />
       )}
     </div>
   );

@@ -9,12 +9,22 @@ import {
 import EventTicketCard from "../EventTicketCard";
 
 interface EventQuickViewTabsProps {
+  event: {
+    id: number;
+    title: string;
+    date: string;
+    location: string;
+    image: string;
+    attendeeCount: number;
+  };
   onMintTicketClick: () => void;
 }
-
-const EventQuickViewTabs = ({ onMintTicketClick }: EventQuickViewTabsProps) => {
+const EventQuickViewTabs = ({
+  event,
+  onMintTicketClick,
+}: EventQuickViewTabsProps) => {
   return (
-    <div className="min-h-0 flex-1 px-6 pb-6">
+    <div className="min-h-0 flex-1 px-2 pb-6">
       <Tabs defaultValue="about" className="flex h-full w-full flex-col">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="about">About event</TabsTrigger>
@@ -26,82 +36,38 @@ const EventQuickViewTabs = ({ onMintTicketClick }: EventQuickViewTabsProps) => {
             <div className="space-y-6">
               <div className="prose prose-sm prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-ul:text-muted-foreground prose-li:text-muted-foreground max-w-none">
                 <p className="text-base leading-relaxed">
-                  Join us for an exciting student builder's race where the next
-                  generation of developers will showcase their skills in
-                  building innovative applications using cutting-edge
-                  technologies.
+                  {event.title} - Join us for this exciting event where
+                  participants will have the opportunity to engage and connect.
                 </p>
 
-                <h3 className="text-foreground mt-6 mb-3 text-lg font-semibold">
-                  What to Expect
+                <h3 className="text-foreground mb-3 mt-6 text-lg font-semibold">
+                  Event Details
                 </h3>
                 <p className="text-base leading-relaxed">
-                  This event brings together Dev3pack, EigenLayer, and Base
-                  ecosystems to create a unique learning and building
-                  experience. Students will have the opportunity to:
+                  This event will take place at {event.location} and promises to
+                  be an engaging experience for all attendees.
                 </p>
 
                 <ul className="mt-4 space-y-2">
                   <li className="flex items-start gap-2">
                     <span className="text-primary font-bold">•</span>
-                    <span>Learn from industry experts and mentors</span>
+                    <span>Connect with like-minded individuals</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary font-bold">•</span>
+                    <span>Participate in interactive activities</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary font-bold">•</span>
+                    <span>Network with other attendees</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-primary font-bold">•</span>
                     <span>
-                      Build real applications using modern Web3 technologies
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary font-bold">•</span>
-                    <span>
-                      Network with like-minded developers and entrepreneurs
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary font-bold">•</span>
-                    <span>Compete for prizes and recognition</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary font-bold">•</span>
-                    <span>
-                      Get hands-on experience with EigenLayer and Base
+                      Receive exclusive NFT ticket as proof of attendance
                     </span>
                   </li>
                 </ul>
-
-                <h3 className="text-foreground mt-6 mb-3 text-lg font-semibold">
-                  Who Should Attend
-                </h3>
-                <p className="text-base leading-relaxed">
-                  Whether you're a beginner or an experienced developer, this
-                  event offers something for everyone. Come ready to learn,
-                  build, and connect with the future of Web3 development.
-                </p>
-
-                <h3 className="text-foreground mt-6 mb-3 text-lg font-semibold">
-                  Event Schedule
-                </h3>
-                <div className="bg-muted/30 mt-4 rounded-lg p-4">
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="font-medium">14:00 - 14:30</span>
-                      <span>Registration & Welcome</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">14:30 - 15:30</span>
-                      <span>Keynote & Tech Overview</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">15:30 - 17:00</span>
-                      <span>Building Session</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">17:00 - 17:30</span>
-                      <span>Demo & Awards</span>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </ScrollArea>
@@ -112,15 +78,14 @@ const EventQuickViewTabs = ({ onMintTicketClick }: EventQuickViewTabsProps) => {
             <div className="space-y-6">
               {/* NFT Ticket Showcase */}
               <div className="bg-muted/30 flex justify-center rounded-lg p-6 py-[16px]">
-                <div className="transform transition-transform duration-300 hover:scale-105">
-                  <EventTicketCard
-                    eventName="The Student Builder's Race"
-                    eventDate="2024-07-03"
-                    location="Cannes, France"
-                    nftName="Student Builder's Race NFT"
-                    onMintClick={onMintTicketClick}
-                  />
-                </div>
+                <EventTicketCard
+                  eventName={event.title}
+                  eventDate={event.date}
+                  location={event.location}
+                  nftName={`${event.title} NFT`}
+                  selectedImage={event.image}
+                  onMintClick={onMintTicketClick}
+                />
               </div>
             </div>
           </ScrollArea>
@@ -129,5 +94,4 @@ const EventQuickViewTabs = ({ onMintTicketClick }: EventQuickViewTabsProps) => {
     </div>
   );
 };
-
 export default EventQuickViewTabs;

@@ -13,26 +13,26 @@ import EventTicketCard from "./EventTicketCard";
 
 const HeroSection = () => {
   return (
-    <section className="relative container mx-auto overflow-hidden px-8 py-16">
+    <section className="container relative mx-auto overflow-hidden px-8 py-16">
       {/* Background geometric shapes - visible but behind content */}
       <div className="pointer-events-none absolute inset-0 z-0">
         {/* Globe icon - top left corner */}
-        <div className="absolute top-8 left-4 opacity-[0.08]">
+        <div className="absolute left-4 top-8 opacity-[0.08]">
           <Globe className="text-foreground h-24 w-24 stroke-[0.5]" />
         </div>
 
         {/* Smile icon - top right corner */}
-        <div className="absolute top-4 right-4 opacity-[0.1]">
+        <div className="absolute right-4 top-4 opacity-[0.1]">
           <Smile className="text-foreground h-16 w-16 stroke-[0.5]" />
         </div>
 
         {/* Large asterisk - far left */}
-        <div className="absolute top-1/4 -left-8 opacity-[0.06]">
+        <div className="absolute -left-8 top-1/4 opacity-[0.06]">
           <Asterisk className="text-foreground h-32 w-32 stroke-[0.5]" />
         </div>
 
         {/* Small asterisk - far bottom right */}
-        <div className="absolute right-2 bottom-8 opacity-[0.12]">
+        <div className="absolute bottom-8 right-2 opacity-[0.12]">
           <Asterisk className="text-foreground h-12 w-12 stroke-[0.5]" />
         </div>
 
@@ -42,13 +42,13 @@ const HeroSection = () => {
         </div>
 
         {/* Smile - far right edge */}
-        <div className="absolute top-2/3 -right-4 opacity-[0.06]">
+        <div className="absolute -right-4 top-2/3 opacity-[0.06]">
           <Smile className="text-foreground h-20 w-20 stroke-[0.5]" />
         </div>
 
         {/* Additional subtle asterisk - top center edge */}
         <div className="absolute -top-4 left-1/3 opacity-[0.06]">
-          <Asterisk className="text-foreground h-18 w-18 stroke-[0.5]" />
+          <Asterisk className="w-18 h-18 text-foreground stroke-[0.5]" />
         </div>
       </div>
 
@@ -58,12 +58,12 @@ const HeroSection = () => {
           <div className="space-y-6">
             <div className="flex items-center space-x-2">
               <div className="bg-primary h-px w-12"></div>
-              <span className="text-primary text-sm font-medium tracking-wider uppercase">
+              <span className="text-primary text-sm font-medium uppercase tracking-wider">
                 The Complete Web3 Event Experience
               </span>
             </div>
 
-            <h1 className="text-foreground text-5xl leading-tight font-bold lg:text-6xl">
+            <h1 className="text-foreground text-5xl font-bold leading-tight lg:text-6xl">
               Create events that{" "}
               <span className="from-primary to-primary/70 bg-gradient-to-r bg-clip-text text-transparent">
                 connect
@@ -71,7 +71,7 @@ const HeroSection = () => {
               , transforming the entire{" "}
               <span className="relative">
                 experience
-                <div className="from-primary to-primary/70 absolute right-0 -bottom-2 left-0 h-1 rounded bg-gradient-to-r"></div>
+                <div className="from-primary to-primary/70 absolute -bottom-2 left-0 right-0 h-1 rounded bg-gradient-to-r"></div>
               </span>
               .
             </h1>

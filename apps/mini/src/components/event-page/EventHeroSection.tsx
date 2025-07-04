@@ -31,7 +31,7 @@ const EventHeroSection = () => {
       <div className="space-y-6 lg:col-span-2">
         {/* Event Title */}
         <div className="space-y-3">
-          <h1 className="text-foreground text-2xl leading-tight font-bold">
+          <h1 className="text-foreground text-2xl font-bold leading-tight">
             The Student Builder's Race | Dev3pack, EigenLayer, Base
           </h1>
 

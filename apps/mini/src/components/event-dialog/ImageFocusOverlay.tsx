@@ -36,7 +36,7 @@ const ImageFocusOverlay = ({
         {/* Close button for focused image */}
         <button
           onClick={onClose}
-          className="absolute -top-4 -right-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-black shadow-lg transition-all duration-200 hover:bg-white"
+          className="absolute -right-4 -top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-black shadow-lg transition-all duration-200 hover:bg-white"
         >
           <X className="h-4 w-4" />
         </button>

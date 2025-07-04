@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@mint-up/ui/components/button";
@@ -12,7 +13,7 @@ const Navigation = () => {
           {/* Logo with Character */}
           <Link href="/" className="relative z-50 flex items-center space-x-3">
             <div className="flex h-12 w-12 items-center justify-center">
-              <img
+              <Image
                 src="/lovable-uploads/ef0b150b-c43f-45d9-bc17-5798b9568c00.png"
                 alt="Mint Up! Character"
                 className="h-full w-full object-contain"
@@ -48,12 +49,19 @@ const Navigation = () => {
             >
               Create Event
             </Link>
-            <span className="text-muted-foreground">How It Works</span>
-            <span className="text-muted-foreground">About</span>
+            <Link
+              href="/my-events"
+              className="text-foreground hover:text-primary transition-colors"
+            >
+              My Events
+            </Link>
           </div>
 
           {/* Mobile Navigation Menu */}
-          <div className="bg-background/95 fixed top-16 right-0 bottom-0 left-0 z-40 translate-x-full transform backdrop-blur-md transition-transform duration-300 ease-in-out peer-checked:translate-x-0 md:hidden">
+          <div
+            className="bg-background/95 fixed bottom-0 left-0 right-0 top-16 z-40 translate-x-full transform backdrop-blur-md transition-transform duration-300 ease-in-out peer-checked:translate-x-0 md:hidden"
+            id="mobile-menu"
+          >
             <div className="flex h-full flex-col items-center justify-center space-y-8">
               <Link
                 href="/explore"
@@ -79,10 +87,18 @@ const Navigation = () => {
               >
                 Create Event
               </Link>
-              <span className="text-muted-foreground text-2xl">
-                How It Works
-              </span>
-              <span className="text-muted-foreground text-2xl">About</span>
+              <Link
+                href="/my-events"
+                className="text-foreground hover:text-primary text-2xl transition-colors"
+                onClick={() => {
+                  const checkbox = document.getElementById(
+                    "menu-toggle",
+                  ) as HTMLInputElement;
+                  if (checkbox) checkbox.checked = false;
+                }}
+              >
+                My Events
+              </Link>
 
               {/* Theme Toggle in Mobile Menu */}
               <div className="pt-4">
@@ -106,13 +122,13 @@ const Navigation = () => {
 
           {/* Right Side - Mobile (removed ThemeToggle since it's now in the menu) */}
           <div className="relative z-50 flex items-center space-x-4 md:hidden">
-            {/* Empty for now since ThemeToggle is moved href mobile menu */}
+            {/* Empty for now since ThemeToggle is moved to mobile menu */}
           </div>
         </div>
       </div>
 
       <style>{`
-        #menu-toggle:checked ~ div.fixed {
+        #menu-toggle:checked ~ #mobile-menu {
           transform: translateX(0) !important;
         }
         

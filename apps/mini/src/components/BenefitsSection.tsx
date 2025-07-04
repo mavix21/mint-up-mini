@@ -5,7 +5,7 @@ const BenefitsSection = () => {
     <section className="bg-background container mx-auto px-8 py-16">
       {/* Section Header */}
       <div className="mx-auto mb-16 max-w-4xl space-y-6 text-center">
-        <h2 className="text-foreground text-4xl leading-tight font-bold lg:text-5xl">
+        <h2 className="text-foreground text-4xl font-bold leading-tight lg:text-5xl">
           Design an Experience,{" "}
           <span className="from-primary to-primary/70 bg-gradient-to-r bg-clip-text text-transparent">
             Not Just an Event

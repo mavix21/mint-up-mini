@@ -15,6 +15,13 @@ import EventQuickViewTabs from "./event-dialog/EventQuickViewTabs";
 import ImageFocusOverlay from "./event-dialog/ImageFocusOverlay";
 import TicketSelectionDialog from "./TicketSelectionDialog";
 
+interface TicketType {
+  id: string;
+  name: string;
+  price: string;
+  requiresApproval: boolean;
+}
+
 interface EventQuickViewDialogProps {
   isOpen: boolean;
   onClose: () => void;
@@ -25,9 +32,9 @@ interface EventQuickViewDialogProps {
     location: string;
     image: string;
     attendeeCount: number;
+    ticketTypes?: TicketType[];
   };
 }
-
 const EventQuickViewDialog = ({
   isOpen,
   onClose,
@@ -36,30 +43,33 @@ const EventQuickViewDialog = ({
   const [isTicketSelectionOpen, setIsTicketSelectionOpen] = useState(false);
   const [isImageFocused, setIsImageFocused] = useState(false);
   const navigate = useRouter();
-
   const handleMintTicketClick = () => {
     setIsTicketSelectionOpen(true);
   };
-
   const handleImageClick = () => {
     setIsImageFocused(true);
   };
-
   const handleImageFocusClose = () => {
     setIsImageFocused(false);
   };
-
   const handleViewFullEventPage = () => {
     navigate.push(`/event/${event.id}`);
     onClose(); // Close the dialog when navigating
   };
-
+  const handleDialogChange = (open: boolean) => {
+    if (!open) {
+      // Reset all internal states when closing
+      setIsTicketSelectionOpen(false);
+      setIsImageFocused(false);
+      onClose();
+    }
+  };
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="bg-card border-border flex h-[90vh] max-h-[90vh] max-w-2xl flex-col overflow-hidden p-0">
+      <Dialog open={isOpen} onOpenChange={handleDialogChange}>
+        <DialogContent className="bg-card border-border flex h-[90vh] max-h-[90vh] max-w-2xl flex-col overflow-hidden p-4">
           {/* Close button */}
-          <DialogClose className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 z-10 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none">
+          <DialogClose className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute right-4 top-4 z-10 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none">
             <X className="h-4 w-4" />
             <span className="sr-only">Close</span>
           </DialogClose>
@@ -68,7 +78,10 @@ const EventQuickViewDialog = ({
           <EventQuickViewHeader event={event} onImageClick={handleImageClick} />
 
           {/* Tabs Section */}
-          <EventQuickViewTabs onMintTicketClick={handleMintTicketClick} />
+          <EventQuickViewTabs
+            event={event}
+            onMintTicketClick={handleMintTicketClick}
+          />
 
           {/* Dialog Footer */}
           <div className="px-6 pb-4 text-center">
@@ -81,22 +94,26 @@ const EventQuickViewDialog = ({
           </div>
 
           {/* Image Focus Overlay - Inside dialog, positioned absolutely */}
-          <ImageFocusOverlay
-            isVisible={isImageFocused}
-            imageUrl={event.image}
-            onClose={handleImageFocusClose}
-          />
+          {isImageFocused && (
+            <ImageFocusOverlay
+              isVisible={isImageFocused}
+              imageUrl={event.image}
+              onClose={handleImageFocusClose}
+            />
+          )}
         </DialogContent>
       </Dialog>
 
-      <TicketSelectionDialog
-        isOpen={isTicketSelectionOpen}
-        onClose={() => setIsTicketSelectionOpen(false)}
-        eventTitle="The Student Builder's Race | Dev3pack, EigenLayer, Base"
-        attendeeCount={event.attendeeCount}
-      />
+      {isTicketSelectionOpen && (
+        <TicketSelectionDialog
+          isOpen={isTicketSelectionOpen}
+          onClose={() => setIsTicketSelectionOpen(false)}
+          eventTitle={event.title}
+          attendeeCount={event.attendeeCount}
+          ticketTypes={event.ticketTypes}
+        />
+      )}
     </>
   );
 };
-
 export default EventQuickViewDialog;
