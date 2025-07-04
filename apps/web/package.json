@@ -22,13 +22,14 @@
     "@t3-oss/env-nextjs": "^0.13.8",
     "@tabler/icons-react": "^3.34.0",
     "@tanstack/react-query": "catalog:",
-    "next": "15.3.4",
+    "lucide-react": "^0.525.0",
+    "next": "15.3.5",
     "next-themes": "^0.4.6",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
     "tailwindcss": "^4.1.11",
-    "inquirer": "^12.4.3",
-    "viem": "^2.31.6",
+    "inquirer": "^12.7.0",
+    "viem": "^2.31.7",
     "wagmi": "^2.15.6",
     "zod": "catalog:"
   },
@@ -40,13 +41,9 @@
     "@types/react-dom": "catalog:react19",
     "dotenv-cli": "^8.0.0",
     "eslint": "catalog:",
-    "eslint-config-next": "15.3.4",
+    "eslint-config-next": "15.3.5",
     "jiti": "^1.21.7",
-    "@neynar/nodejs-sdk": "^2.19.0",
     "typescript": "catalog:"
-  },
-  "bin": {
-    "@neynar/create-farcaster-mini-app": "./bin/index.js"
   },
   "prettier": "@mint-up/prettier-config"
 }
