@@ -6,25 +6,12 @@ export const APP_DESCRIPTION =
 export const APP_PRIMARY_CATEGORY = "social";
 export const APP_TAGS = "event,events,ticketing,rsvp,meetup,mint".split(",");
 
-export const APP_URL = env.NEXT_PUBLIC_URL;
-export const APP_ICON_URL = `${APP_URL}/icon.png`;
-export const APP_OG_IMAGE_URL = `${APP_URL}/api/opengraph-image`;
-export const APP_SPLASH_URL = `${APP_URL}/splash.png`;
+export const APP_ICON_URL = `${env.NEXT_PUBLIC_URL}/icon.png`;
+export const APP_OG_IMAGE_URL = `${env.NEXT_PUBLIC_URL}/api/opengraph-image`;
+export const APP_SPLASH_URL = `${env.NEXT_PUBLIC_URL}/splash.png`;
 export const APP_SPLASH_BACKGROUND_COLOR = "#f7f7f7";
 export const APP_BUTTON_TEXT = "Mint Your Ticket";
 
-// --- Integration Configuration ---
-/**
- * Webhook URL for receiving events from Neynar.
- *
- * If Neynar API key and client ID are configured, uses the official
- * Neynar webhook endpoint. Otherwise, falls back to a local webhook
- * endpoint for development and testing.
- */
-export const APP_WEBHOOK_URL =
-  env.NEYNAR_API_KEY && env.NEYNAR_CLIENT_ID
-    ? `https://api.neynar.com/f/app/${env.NEYNAR_CLIENT_ID}/event`
-    : `${APP_URL}/api/webhook`;
 /**
  * Flag to enable/disable wallet functionality.
  *

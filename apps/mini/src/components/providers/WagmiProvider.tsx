@@ -11,7 +11,8 @@ import {
 import { base, celo, degen, mainnet, optimism, unichain } from "wagmi/chains";
 import { coinbaseWallet, metaMask } from "wagmi/connectors";
 
-import { APP_ICON_URL, APP_NAME, APP_URL } from "@/src/lib/constants";
+import { env } from "@/src/env";
+import { APP_ICON_URL, APP_NAME } from "@/src/lib/constants";
 
 // Custom hook for Coinbase Wallet detection and auto-connection
 function useCoinbaseWalletAutoConnect() {
@@ -67,7 +68,7 @@ export const config = createConfig({
     metaMask({
       dappMetadata: {
         name: APP_NAME,
-        url: APP_URL,
+        url: env.NEXT_PUBLIC_URL,
       },
     }),
   ],

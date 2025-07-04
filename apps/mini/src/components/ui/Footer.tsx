@@ -1,6 +1,9 @@
 import React from "react";
+import { Calendar, Home, Wallet, Zap } from "lucide-react";
 
 import { Tab } from "@/src/lib/types";
+
+import { BottomTab } from "./tabs/BottomTab";
 
 interface FooterProps {
   activeTab: Tab;
@@ -13,53 +16,33 @@ export const Footer: React.FC<FooterProps> = ({
   setActiveTab,
   showWallet = false,
 }) => (
-  <div className="border-primary fixed right-0 bottom-0 left-0 z-50 mx-4 mb-4 rounded-lg border-[3px] border-double bg-gray-100 px-2 py-2 dark:bg-gray-800">
-    <div className="flex h-14 items-center justify-around">
-      <button
+  <div className="bg-background/95 supports-[backdrop-filter]:bg-background/80 border-border fixed bottom-0 left-0 right-0 z-50 border-t backdrop-blur">
+    <div className="flex items-center justify-around p-2">
+      <BottomTab
         onClick={() => setActiveTab(Tab.Home)}
-        className={`flex h-full w-full flex-col items-center justify-center ${
-          activeTab === Tab.Home
-            ? "text-primary dark:text-primary-light"
-            : "text-gray-500 dark:text-gray-400"
-        }`}
-      >
-        <span className="text-xl">🏠</span>
-        <span className="mt-1 text-xs">Home</span>
-      </button>
-      <button
+        isActive={activeTab === Tab.Home}
+        Icon={Home}
+        label="Home"
+      />
+      <BottomTab
         onClick={() => setActiveTab(Tab.Actions)}
-        className={`flex h-full w-full flex-col items-center justify-center ${
-          activeTab === Tab.Actions
-            ? "text-primary dark:text-primary-light"
-            : "text-gray-500 dark:text-gray-400"
-        }`}
-      >
-        <span className="text-xl">⚡</span>
-        <span className="mt-1 text-xs">Actions</span>
-      </button>
-      <button
+        isActive={activeTab === Tab.Actions}
+        Icon={Zap}
+        label="Actions"
+      />
+      <BottomTab
         onClick={() => setActiveTab(Tab.Context)}
-        className={`flex h-full w-full flex-col items-center justify-center ${
-          activeTab === Tab.Context
-            ? "text-primary dark:text-primary-light"
-            : "text-gray-500 dark:text-gray-400"
-        }`}
-      >
-        <span className="text-xl">📋</span>
-        <span className="mt-1 text-xs">Context</span>
-      </button>
+        isActive={activeTab === Tab.Context}
+        Icon={Calendar}
+        label="Context"
+      />
       {showWallet && (
-        <button
+        <BottomTab
           onClick={() => setActiveTab(Tab.Wallet)}
-          className={`flex h-full w-full flex-col items-center justify-center ${
-            activeTab === Tab.Wallet
-              ? "text-primary dark:text-primary-light"
-              : "text-gray-500 dark:text-gray-400"
-          }`}
-        >
-          <span className="text-xl">👛</span>
-          <span className="mt-1 text-xs">Wallet</span>
-        </button>
+          isActive={activeTab === Tab.Wallet}
+          Icon={Wallet}
+          label="Wallet"
+        />
       )}
     </div>
   </div>

@@ -19,6 +19,22 @@ export const env = createEnv({
     NEYNAR_CLIENT_ID: z.string(),
   },
 
+  createFinalSchema: (env) => {
+    return z.object(env).transform((val) => {
+      const { NEYNAR_API_KEY, NEYNAR_CLIENT_ID, NEXT_PUBLIC_URL, ...rest } =
+        val;
+
+      return {
+        ...rest,
+        NEXT_PUBLIC_URL,
+        APP_WEBHOOK_URL:
+          NEYNAR_API_KEY && NEYNAR_CLIENT_ID
+            ? `https://api.neynar.com/f/app/${NEYNAR_CLIENT_ID}/event`
+            : `${NEXT_PUBLIC_URL}/api/webhook`,
+      };
+    });
+  },
+
   /**
    * Specify your client-side environment variables schema here.
    * For them to be exposed to the client, prefix them with `NEXT_PUBLIC_`.

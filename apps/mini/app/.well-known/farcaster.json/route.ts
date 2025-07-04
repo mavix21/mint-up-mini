@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getFarcasterMetadata } from "../../../src/lib/utils";
+import { getFarcasterMetadata } from "../../../src/lib/serverUtils";
 
 export async function GET() {
   try {
