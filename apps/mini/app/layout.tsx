@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 
 import { getSession } from "@/auth";
 
@@ -7,6 +8,16 @@ import "@mint-up/ui/globals.css";
 import { APP_DESCRIPTION, APP_NAME } from "@/src/lib/constants";
 
 import { Providers } from "./providers";
+
+const fontSans = Geist({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+const fontMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
 
 export const metadata: Metadata = {
   title: APP_NAME,
@@ -22,7 +33,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body>
+      <body
+        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}
+      >
         <Providers session={session}>{children}</Providers>
       </body>
     </html>
