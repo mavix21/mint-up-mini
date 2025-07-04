@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 
+import { env } from "@/src/env";
+
 export async function GET(request: Request) {
-  const apiKey = process.env.NEYNAR_API_KEY;
+  const apiKey = env.NEYNAR_API_KEY;
   const { searchParams } = new URL(request.url);
   const fid = searchParams.get("fid");
 

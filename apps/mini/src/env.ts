@@ -27,6 +27,7 @@ export const env = createEnv({
       return {
         ...rest,
         NEXT_PUBLIC_URL,
+        NEYNAR_API_KEY,
         APP_WEBHOOK_URL:
           NEYNAR_API_KEY && NEYNAR_CLIENT_ID
             ? `https://api.neynar.com/f/app/${NEYNAR_CLIENT_ID}/event`
