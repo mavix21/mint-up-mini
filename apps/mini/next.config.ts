@@ -7,7 +7,7 @@ createJiti(fileURLToPath(import.meta.url))("./src/env");
 
 const nextConfig: NextConfig = {
   /** Enables hot reloading for local packages without a build step */
-  transpilePackages: ["@mint-up/db", "@mint-up/ui"],
+  transpilePackages: ["@mint-up/convex", "@mint-up/ui"],
 
   // Silence warnings
   // https://github.com/WalletConnect/walletconnect-monorepo/issues/1908
