@@ -3,6 +3,8 @@ import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import ReactCrop from "react-image-crop";
 
+import "react-image-crop/dist/ReactCrop.css";
+
 import { Button } from "@mint-up/ui/components/button";
 import {
   Dialog,
