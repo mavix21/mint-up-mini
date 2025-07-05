@@ -17,7 +17,7 @@ export const Footer: React.FC<FooterProps> = ({
   showWallet = false,
 }) => (
   <div className="bg-background/95 supports-[backdrop-filter]:bg-background/80 border-border fixed bottom-0 left-0 right-0 z-50 border-t backdrop-blur">
-    <div className="flex items-center justify-around p-1">
+    <div className="flex items-center justify-around py-4">
       <BottomTab
         onClick={() => setActiveTab(Tab.Home)}
         isActive={activeTab === Tab.Home}

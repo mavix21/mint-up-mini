@@ -25,11 +25,11 @@ export const BottomTab = ({
     >
       {isCenter ? (
         // Center button with special styling
-        <div className="relative -top-6">
+        <div className="absolute -top-10">
           <Button
             size="icon"
             onClick={onClick}
-            className={`h-14 w-14 rounded-full shadow-lg ${
+            className={`h-12 w-12 rounded-full shadow-lg ${
               isActive
                 ? "bg-primary text-primary-foreground"
                 : "bg-primary text-primary-foreground"
@@ -41,21 +41,21 @@ export const BottomTab = ({
       ) : (
         // Regular tabs
         <button
-          className="flex flex-col items-center justify-center px-1 py-2"
+          className="flex flex-col items-center justify-center space-y-1"
           onClick={onClick}
         >
           <Icon
-            className={`mb-1 h-5 w-5 ${
+            className={`h-5 w-5 ${
               isActive ? "text-primary" : "text-muted-foreground"
             }`}
           />
-          <span
+          {/* <span
             className={`text-xs font-medium ${
               isActive ? "text-primary" : "text-muted-foreground"
             }`}
           >
             {label}
-          </span>
+          </span> */}
         </button>
       )}
     </div>
