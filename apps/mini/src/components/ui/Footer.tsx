@@ -1,5 +1,5 @@
 import React from "react";
-import { Calendar, Home, Plus, Wallet, Zap } from "lucide-react";
+import { Calendar, Home, Plus, Search, Wallet, Zap } from "lucide-react";
 
 import { Tab } from "@/src/lib/types";
 
@@ -24,12 +24,12 @@ export const Footer: React.FC<FooterProps> = ({
         Icon={Home}
         label="Home"
       />
-      <BottomTab
+      {/* <BottomTab
         onClick={() => setActiveTab(Tab.Actions)}
         isActive={activeTab === Tab.Actions}
         Icon={Zap}
         label="Actions"
-      />
+      /> */}
       <BottomTab
         onClick={() => setActiveTab(Tab.Create)}
         isActive={activeTab === Tab.Create}
@@ -38,19 +38,25 @@ export const Footer: React.FC<FooterProps> = ({
         label="Create"
       />
       <BottomTab
+        onClick={() => setActiveTab(Tab.Explore)}
+        isActive={activeTab === Tab.Explore}
+        Icon={Search}
+        label="Explore"
+      />
+      {/* <BottomTab
         onClick={() => setActiveTab(Tab.Context)}
         isActive={activeTab === Tab.Context}
         Icon={Calendar}
         label="Context"
-      />
-      {showWallet && (
+      /> */}
+      {/* {showWallet && (
         <BottomTab
           onClick={() => setActiveTab(Tab.Wallet)}
           isActive={activeTab === Tab.Wallet}
           Icon={Wallet}
           label="Wallet"
         />
-      )}
+      )} */}
     </div>
   </div>
 );

@@ -15,6 +15,8 @@ import { useNeynarUser } from "@/src/hooks/useNeynarUser";
 import { USE_WALLET } from "@/src/lib/constants";
 import { Tab } from "@/src/lib/types";
 
+import { ExploreTab } from "./ui/tabs/ExploreTab";
+
 export interface AppProps {
   title?: string;
 }
@@ -104,9 +106,10 @@ export default function App(
 
         {/* Tab content rendering */}
         {currentTab === Tab.Home && <HomeTab />}
-        {currentTab === Tab.Actions && <ActionsTab />}
-        {currentTab === Tab.Context && <ContextTab />}
-        {currentTab === Tab.Wallet && <WalletTab />}
+        {/* {currentTab === Tab.Actions && <ActionsTab />} */}
+        {/* {currentTab === Tab.Context && <ContextTab />} */}
+        {currentTab === Tab.Explore && <ExploreTab />}
+        {/* {currentTab === Tab.Wallet && <WalletTab />} */}
 
         {/* Footer with navigation */}
         <Footer
