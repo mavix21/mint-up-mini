@@ -95,7 +95,7 @@ export default function App(
       }}
     >
       {/* Header should be full width */}
-      <Header neynarUser={neynarUser} />
+      {/* <Header neynarUser={neynarUser} /> */}
 
       {/* Main content and footer should be centered */}
       <div className="container mx-auto py-2 pb-20">

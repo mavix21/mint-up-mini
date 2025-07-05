@@ -16,6 +16,8 @@ const Navigation = () => {
               <Image
                 src="/lovable-uploads/ef0b150b-c43f-45d9-bc17-5798b9568c00.png"
                 alt="Mint Up! Character"
+                width={100}
+                height={100}
                 className="h-full w-full object-contain"
               />
             </div>
