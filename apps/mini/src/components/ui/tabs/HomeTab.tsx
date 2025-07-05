@@ -189,140 +189,141 @@ export function HomeTab() {
     //     <p className="text-sm text-gray-500">Powered by Neynar 🪐</p>
     //   </div>
     // </div>
-    //<MyEvents />
-    <SheetWithKeyboard.Root>
-      <SheetWithKeyboard.Trigger className="ExampleSheetWithKeyboard-presentTrigger">
-        Sheet with Keyboard
-      </SheetWithKeyboard.Trigger>
-      <SheetWithKeyboard.Portal>
-        <SheetWithKeyboard.View>
-          <SheetWithKeyboard.Backdrop />
-          <SheetWithKeyboard.Content className="ExampleSheetWithKeyboard-content">
-            <div className="ExampleSheetWithKeyboard-header">
-              <SheetWithKeyboard.Trigger
-                className="ExampleSheetWithKeyboard-cancelButton"
-                action="dismiss"
-              >
-                Cancel
-              </SheetWithKeyboard.Trigger>
-              <SheetWithKeyboard.Title className="ExampleSheetWithKeyboard-title">
-                Edit Product
-              </SheetWithKeyboard.Title>
-              <SheetWithKeyboard.Trigger
-                className="ExampleSheetWithKeyboard-saveButton"
-                action="dismiss"
-              >
-                Save
-              </SheetWithKeyboard.Trigger>
-            </div>
-            <Scroll.Root asChild>
-              <Scroll.View
-                className="ExampleSheetWithKeyboard-scrollView"
-                scrollGestureTrap={{ yEnd: !largeViewport }}
-              >
-                <Scroll.Content className="ExampleSheetWithKeyboard-scrollContent">
-                  <div className="ExampleSheetWithKeyboard-imageGallery">
-                    <Scroll.Root asChild>
-                      <Scroll.View
-                        className="ExampleSheetWithKeyboard-galleryScrollView"
-                        axis="x"
-                        nativeScrollbar={false}
-                      >
-                        <Scroll.Content className="ExampleSheetWithKeyboard-galleryScrollContent">
-                          {[0, 1, 2, 3].map((element) => (
-                            <div
-                              className="ExampleSheetWithKeyboard-image"
-                              key={element}
-                            />
-                          ))}
-                        </Scroll.Content>
-                      </Scroll.View>
-                    </Scroll.Root>
-                  </div>
-                  <div className="ExampleSheetWithKeyboard-info">
-                    <h3 className="ExampleSheetWithKeyboard-details">
-                      Product details
-                    </h3>
-                    <div className="ExampleSheetWithKeyboard-form">
-                      <TextInputField
-                        data={formData.name}
-                        formValues={formValues}
-                        setFormValues={setFormValues}
-                      />
-                      <TextInputField
-                        data={formData.brand}
-                        formValues={formValues}
-                        setFormValues={setFormValues}
-                      />
-                      <TextInputField
-                        data={formData.type}
-                        formValues={formValues}
-                        setFormValues={setFormValues}
-                      />
-                      <div className="ExampleSheetWithKeyboard-field fieldType-color">
-                        <div className="ExampleSheetWithKeyboard-label">
-                          Colors
-                        </div>
-                        <p className="ExampleSheetWithKeyboard-labelDescription">
-                          The main colors of the product.
-                        </p>
-                        <div className="ExampleSheetWithKeyboard-colorInputs">
-                          <ColorInputField
-                            data={formData.color1}
-                            formValues={formValues}
-                            setFormValues={setFormValues}
-                          />
-                          <ColorInputField
-                            data={formData.color2}
-                            formValues={formValues}
-                            setFormValues={setFormValues}
-                          />
-                          <ColorInputField
-                            data={formData.color3}
-                            formValues={formValues}
-                            setFormValues={setFormValues}
-                          />
-                        </div>
-                      </div>
-                      <TextInputField
-                        data={formData.price}
-                        formValues={formValues}
-                        setFormValues={setFormValues}
-                      />
-                      <div className="ExampleSheetWithKeyboard-field fieldType-description">
-                        <label
-                          htmlFor={formData.description.name}
-                          className="ExampleSheetWithKeyboard-label"
-                        >
-                          {formData.description.label}
-                        </label>
-                        <p className="ExampleSheetWithKeyboard-labelDescription">
-                          {formData.description.description}
-                        </p>
-                        <textarea
-                          className="ExampleSheetWithKeyboard-textarea"
-                          id={formData.description.name}
-                          name={formData.description.name}
-                          rows={5}
-                          placeholder={formData.description.placeholder}
-                          // @ts-ignore
-                          value={formValues[formData.description.name]}
-                          onChange={(event) =>
-                            setFormValues((prevValue) => ({
-                              ...prevValue,
-                              [formData.description.name]: event.target.value,
-                            }))
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </Scroll.Content>
-              </Scroll.View>
-            </Scroll.Root>
-          </SheetWithKeyboard.Content>
-        </SheetWithKeyboard.View>
-      </SheetWithKeyboard.Portal>
-    </SheetWithKeyboard.Root>
+    <MyEvents />
+    /* Template for create event sheet */
+    // <SheetWithKeyboard.Root>
+    //   <SheetWithKeyboard.Trigger className="ExampleSheetWithKeyboard-presentTrigger">
+    //     Sheet with Keyboard
+    //   </SheetWithKeyboard.Trigger>
+    //   <SheetWithKeyboard.Portal>
+    //     <SheetWithKeyboard.View>
+    //       <SheetWithKeyboard.Backdrop />
+    //       <SheetWithKeyboard.Content className="ExampleSheetWithKeyboard-content">
+    //         <div className="ExampleSheetWithKeyboard-header">
+    //           <SheetWithKeyboard.Trigger
+    //             className="ExampleSheetWithKeyboard-cancelButton"
+    //             action="dismiss"
+    //           >
+    //             Cancel
+    //           </SheetWithKeyboard.Trigger>
+    //           <SheetWithKeyboard.Title className="ExampleSheetWithKeyboard-title">
+    //             Edit Product
+    //           </SheetWithKeyboard.Title>
+    //           <SheetWithKeyboard.Trigger
+    //             className="ExampleSheetWithKeyboard-saveButton"
+    //             action="dismiss"
+    //           >
+    //             Save
+    //           </SheetWithKeyboard.Trigger>
+    //         </div>
+    //         <Scroll.Root asChild>
+    //           <Scroll.View
+    //             className="ExampleSheetWithKeyboard-scrollView"
+    //             scrollGestureTrap={{ yEnd: !largeViewport }}
+    //           >
+    //             <Scroll.Content className="ExampleSheetWithKeyboard-scrollContent">
+    //               <div className="ExampleSheetWithKeyboard-imageGallery">
+    //                 <Scroll.Root asChild>
+    //                   <Scroll.View
+    //                     className="ExampleSheetWithKeyboard-galleryScrollView"
+    //                     axis="x"
+    //                     nativeScrollbar={false}
+    //                   >
+    //                     <Scroll.Content className="ExampleSheetWithKeyboard-galleryScrollContent">
+    //                       {[0, 1, 2, 3].map((element) => (
+    //                         <div
+    //                           className="ExampleSheetWithKeyboard-image"
+    //                           key={element}
+    //                         />
+    //                       ))}
+    //                     </Scroll.Content>
+    //                   </Scroll.View>
+    //                 </Scroll.Root>
+    //               </div>
+    //               <div className="ExampleSheetWithKeyboard-info">
+    //                 <h3 className="ExampleSheetWithKeyboard-details">
+    //                   Product details
+    //                 </h3>
+    //                 <div className="ExampleSheetWithKeyboard-form">
+    //                   <TextInputField
+    //                     data={formData.name}
+    //                     formValues={formValues}
+    //                     setFormValues={setFormValues}
+    //                   />
+    //                   <TextInputField
+    //                     data={formData.brand}
+    //                     formValues={formValues}
+    //                     setFormValues={setFormValues}
+    //                   />
+    //                   <TextInputField
+    //                     data={formData.type}
+    //                     formValues={formValues}
+    //                     setFormValues={setFormValues}
+    //                   />
+    //                   <div className="ExampleSheetWithKeyboard-field fieldType-color">
+    //                     <div className="ExampleSheetWithKeyboard-label">
+    //                       Colors
+    //                     </div>
+    //                     <p className="ExampleSheetWithKeyboard-labelDescription">
+    //                       The main colors of the product.
+    //                     </p>
+    //                     <div className="ExampleSheetWithKeyboard-colorInputs">
+    //                       <ColorInputField
+    //                         data={formData.color1}
+    //                         formValues={formValues}
+    //                         setFormValues={setFormValues}
+    //                       />
+    //                       <ColorInputField
+    //                         data={formData.color2}
+    //                         formValues={formValues}
+    //                         setFormValues={setFormValues}
+    //                       />
+    //                       <ColorInputField
+    //                         data={formData.color3}
+    //                         formValues={formValues}
+    //                         setFormValues={setFormValues}
+    //                       />
+    //                     </div>
+    //                   </div>
+    //                   <TextInputField
+    //                     data={formData.price}
+    //                     formValues={formValues}
+    //                     setFormValues={setFormValues}
+    //                   />
+    //                   <div className="ExampleSheetWithKeyboard-field fieldType-description">
+    //                     <label
+    //                       htmlFor={formData.description.name}
+    //                       className="ExampleSheetWithKeyboard-label"
+    //                     >
+    //                       {formData.description.label}
+    //                     </label>
+    //                     <p className="ExampleSheetWithKeyboard-labelDescription">
+    //                       {formData.description.description}
+    //                     </p>
+    //                     <textarea
+    //                       className="ExampleSheetWithKeyboard-textarea"
+    //                       id={formData.description.name}
+    //                       name={formData.description.name}
+    //                       rows={5}
+    //                       placeholder={formData.description.placeholder}
+    //                       // @ts-ignore
+    //                       value={formValues[formData.description.name]}
+    //                       onChange={(event) =>
+    //                         setFormValues((prevValue) => ({
+    //                           ...prevValue,
+    //                           [formData.description.name]: event.target.value,
+    //                         }))
+    //                       }
+    //                     />
+    //                   </div>
+    //                 </div>
+    //               </div>
+    //             </Scroll.Content>
+    //           </Scroll.View>
+    //         </Scroll.Root>
+    //       </SheetWithKeyboard.Content>
+    //     </SheetWithKeyboard.View>
+    //   </SheetWithKeyboard.Portal>
+    // </SheetWithKeyboard.Root>
   );
 }
