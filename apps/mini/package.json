@@ -31,7 +31,7 @@
     "@farcaster/frame-sdk": "^0.0.64",
     "@farcaster/frame-wagmi-connector": ">=0.0.19 <1.0.0",
     "@farcaster/mini-app-solana": "1.0.2",
-    "@mint-up/db": "workspace:*",
+    "@mint-up/convex": "workspace:*",
     "@mint-up/ui": "workspace:*",
     "@neynar/nodejs-sdk": "^3.21.0",
     "@neynar/react": "^1.2.5",

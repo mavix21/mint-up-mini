@@ -17,5 +17,15 @@
   "devDependencies": {
     "typescript": "catalog:"
   },
+  "exports": {
+    "./_generated/*": {
+      "types": "./convex/_generated/*.d.ts",
+      "default": "./convex/_generated/*.js"
+    },
+    ".": {
+      "types": "./convex/index.d.ts",
+      "default": "./convex/index.js"
+    }
+  },
   "prettier": "@mint-up/prettier-config"
 }
