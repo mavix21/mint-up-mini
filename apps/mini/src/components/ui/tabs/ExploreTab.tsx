@@ -1,7 +1,6 @@
 "use client";
 
 import ExploreEvents from "@/src/screens/ExploreEvents";
-import MyEvents from "@/src/screens/MyEvents";
 
 /**
  * HomeTab component displays the main landing content for the mini app.

@@ -92,6 +92,8 @@ const EventTicketCard = ({
               <div className="from-primary/20 to-accent/30 relative h-80 overflow-hidden bg-gradient-to-br">
                 {selectedImage ? (
                   <Image
+                    width={100}
+                    height={100}
                     src={selectedImage}
                     alt={eventName}
                     className="h-full w-full object-cover"
@@ -132,6 +134,8 @@ const EventTicketCard = ({
                 {qrCodeDataUrl && (
                   <div className="rounded-lg bg-white p-3">
                     <Image
+                      width={100}
+                      height={100}
                       src={qrCodeDataUrl}
                       alt="Ticket QR Code"
                       className="h-32 w-32"

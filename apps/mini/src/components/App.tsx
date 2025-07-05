@@ -8,6 +8,7 @@ import { Header } from "@/src/components/ui/Header";
 import {
   ActionsTab,
   ContextTab,
+  CreateTab,
   HomeTab,
   WalletTab,
 } from "@/src/components/ui/tabs";
@@ -106,6 +107,7 @@ export default function App(
 
         {/* Tab content rendering */}
         {currentTab === Tab.Home && <HomeTab />}
+        {currentTab === Tab.Create && <CreateTab />}
         {/* {currentTab === Tab.Actions && <ActionsTab />} */}
         {/* {currentTab === Tab.Context && <ContextTab />} */}
         {currentTab === Tab.Explore && <ExploreTab />}

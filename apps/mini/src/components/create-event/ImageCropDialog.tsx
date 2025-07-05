@@ -129,6 +129,8 @@ const ImageCropDialog = ({
                 src={imageSrc}
                 alt="Crop preview"
                 onLoad={onImageLoad}
+                width={100}
+                height={100}
                 style={{
                   maxWidth: "100%",
                   maxHeight: "400px",

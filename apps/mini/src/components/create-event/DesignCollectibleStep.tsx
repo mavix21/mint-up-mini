@@ -94,6 +94,8 @@ const DesignCollectibleStep = ({
             {displayImage && formData.ticketArtwork ? (
               <div className="border-border relative h-48 w-48 overflow-hidden rounded-lg border-2 border-dashed">
                 <Image
+                  width={100}
+                  height={100}
                   src={displayImage}
                   alt="Ticket artwork preview"
                   className="h-full w-full object-cover"

@@ -6,6 +6,7 @@ import { Button } from "@mint-up/ui/components/button";
 import { Input } from "@mint-up/ui/components/input";
 import { Label } from "@mint-up/ui/components/label";
 import { Textarea } from "@mint-up/ui/components/textarea";
+
 import ImageCropDialog from "./ImageCropDialog";
 
 interface EventDetailsStepProps {
@@ -61,6 +62,8 @@ const EventDetailsStep = ({
           {formData.selectedImage ? (
             <div className="border-border relative h-32 w-32 overflow-hidden rounded-lg border-2 border-dashed">
               <Image
+                width={100}
+                height={100}
                 src={formData.selectedImage}
                 alt="Event preview"
                 className="h-full w-full object-cover"
