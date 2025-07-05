@@ -14,8 +14,6 @@ import {
   TabsTrigger,
 } from "@mint-up/ui/components/tabs";
 
-import Navigation from "../components/Navigation";
-
 interface EventStats {
   mints?: number;
   capacity?: number | null;
@@ -35,7 +33,7 @@ interface Event {
   stats?: EventStats;
 }
 
-const MyEvents = () => {
+export default function MyEvents() {
   const navigate = useRouter();
   const [activeTab, setActiveTab] = useState("upcoming");
 
@@ -47,8 +45,7 @@ const MyEvents = () => {
       startTime: "2025-07-25T12:30:00Z",
       location: "UPC - Campus San Miguel",
       userRole: "host",
-      nftTicketImageUrl:
-        "/lovable-uploads/4b2dc3f1-b825-4c03-bcb4-8801b06e3c76.png",
+      nftTicketImageUrl: "/placeholder.svg",
       stats: { mints: 0, capacity: null },
     },
     {
@@ -57,8 +54,7 @@ const MyEvents = () => {
       startTime: "2025-07-28T18:00:00Z",
       location: "Virtual",
       userRole: "attendee",
-      nftTicketImageUrl:
-        "/lovable-uploads/e11f0571-5162-4267-a226-b3c5a906e57b.png",
+      nftTicketImageUrl: "/placeholder.svg",
       stats: {},
     },
   ];
@@ -71,7 +67,7 @@ const MyEvents = () => {
       location: "Virtual",
       userRole: "attendee",
       status: "POAP_COLLECTED",
-      poapImageUrl: "/lovable-uploads/ef0b150b-c43f-45d9-bc17-5798b9568c00.png",
+      poapImageUrl: "/placeholder.svg",
     },
     {
       id: "evt-004",
@@ -89,7 +85,7 @@ const MyEvents = () => {
       location: "Lima, Peru",
       userRole: "host",
       status: "COMPLETED",
-      poapImageUrl: "/lovable-uploads/4b2dc3f1-b825-4c03-bcb4-8801b06e3c76.png",
+      poapImageUrl: "/placeholder.svg",
       stats: { attendees: 112, poapsClaimed: 105 },
     },
   ];
@@ -129,10 +125,8 @@ const MyEvents = () => {
   const groupEventsByDate = (events: Event[]) => {
     const grouped = events.reduce(
       (acc, event) => {
-        const dateKey = event.startTime.split("T")[0] || event.startTime;
-        if (!acc[dateKey]) {
-          acc[dateKey] = [];
-        }
+        const dateKey = event.startTime.split("T")[0] ?? event.startTime;
+        acc[dateKey] ??= [];
         acc[dateKey].push(event);
         return acc;
       },
@@ -195,7 +189,7 @@ const MyEvents = () => {
                     <div className="text-muted-foreground flex items-center gap-1">
                       <Users className="h-4 w-4" />
                       <span>
-                        Mints: {event.stats.mints || 0}
+                        Mints: {event.stats.mints ?? 0}
                         {event.stats.capacity
                           ? ` / ${event.stats.capacity}`
                           : ""}
@@ -294,10 +288,10 @@ const MyEvents = () => {
                       <div className="bg-primary absolute left-1/2 top-3 h-3 w-3 -translate-x-1/2 transform rounded-full" />
                       <div className="pr-2 text-right">
                         <div className="text-foreground text-sm font-medium">
-                          {formatDate(events[0]?.startTime || "")}
+                          {formatDate(events[0]?.startTime ?? "")}
                         </div>
                         <div className="text-muted-foreground text-xs">
-                          {getDayOfWeek(events[0]?.startTime || "")}
+                          {getDayOfWeek(events[0]?.startTime ?? "")}
                         </div>
                       </div>
                     </div>
@@ -316,10 +310,10 @@ const MyEvents = () => {
                     <div className="bg-primary absolute -left-1.5 top-3 h-3 w-3 rounded-full" />
                     <div className="mb-4">
                       <div className="text-foreground text-sm font-medium">
-                        {formatDate(events[0]?.startTime || "")}
+                        {formatDate(events[0]?.startTime ?? "")}
                       </div>
                       <div className="text-muted-foreground text-xs">
-                        {getDayOfWeek(events[0]?.startTime || "")}
+                        {getDayOfWeek(events[0]?.startTime ?? "")}
                       </div>
                     </div>
                     {events.map((event) => (
@@ -352,10 +346,10 @@ const MyEvents = () => {
                       <div className="bg-muted-foreground absolute left-1/2 top-3 h-3 w-3 -translate-x-1/2 transform rounded-full" />
                       <div className="pr-2 text-right">
                         <div className="text-foreground text-sm font-medium">
-                          {formatDate(events[0]?.startTime || "")}
+                          {formatDate(events[0]?.startTime ?? "")}
                         </div>
                         <div className="text-muted-foreground text-xs">
-                          {getDayOfWeek(events[0]?.startTime || "")}
+                          {getDayOfWeek(events[0]?.startTime ?? "")}
                         </div>
                       </div>
                     </div>
@@ -374,10 +368,10 @@ const MyEvents = () => {
                     <div className="bg-muted-foreground absolute -left-1.5 top-3 h-3 w-3 rounded-full" />
                     <div className="mb-4">
                       <div className="text-foreground text-sm font-medium">
-                        {formatDate(events[0]?.startTime || "")}
+                        {formatDate(events[0]?.startTime ?? "")}
                       </div>
                       <div className="text-muted-foreground text-xs">
-                        {getDayOfWeek(events[0]?.startTime || "")}
+                        {getDayOfWeek(events[0]?.startTime ?? "")}
                       </div>
                     </div>
                     {events.map((event) => (
@@ -398,6 +392,4 @@ const MyEvents = () => {
       </div>
     </div>
   );
-};
-
-export default MyEvents;
+}

@@ -25,11 +25,11 @@ export const BottomTab = ({
     >
       {isCenter ? (
         // Center button with special styling
-        <div className="relative -top-3">
+        <div className="relative -top-6">
           <Button
             size="icon"
             onClick={onClick}
-            className={`h-12 w-12 rounded-full shadow-lg ${
+            className={`h-14 w-14 rounded-full shadow-lg ${
               isActive
                 ? "bg-primary text-primary-foreground"
                 : "bg-primary text-primary-foreground"
