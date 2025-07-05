@@ -3,13 +3,19 @@ import { v } from "convex/values";
 
 export const linkedAccountsTable = defineTable({
   userId: v.id("users"),
-  protocol: v.union(v.literal("farcaster"), v.literal("wallet")),
-  protocolUserId: v.string(),
-  metadata: v.optional(
+  account: v.union(
     v.object({
-      username: v.optional(v.string()),
+      protocol: v.literal("farcaster"),
+      fid: v.number(),
+      username: v.string(),
+    }),
+    v.object({
+      protocol: v.literal("wallet"),
+      address: v.string(),
     }),
   ),
+  linkedAt: v.number(),
 })
   .index("by_userId", ["userId"])
-  .index("by_protocol_id", ["protocol", "protocolUserId"]);
+  .index("by_farcaster_fid", ["account.fid"]) // Índice específico para buscar por FID
+  .index("by_wallet_address", ["account.address"]); // Índice específico para buscar por dirección de wallet

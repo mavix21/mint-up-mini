@@ -13,7 +13,14 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as index from "../index.js";
+import type * as storage from "../storage.js";
+import type * as tables_eventCommunications from "../tables/eventCommunications.js";
+import type * as tables_events from "../tables/events.js";
 import type * as tables_linkedAccounts from "../tables/linkedAccounts.js";
+import type * as tables_organizationMembers from "../tables/organizationMembers.js";
+import type * as tables_organizations from "../tables/organizations.js";
+import type * as tables_registrations from "../tables/registrations.js";
 import type * as tables_sessions from "../tables/sessions.js";
 import type * as tables_user from "../tables/user.js";
 
@@ -26,7 +33,14 @@ import type * as tables_user from "../tables/user.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  index: typeof index;
+  storage: typeof storage;
+  "tables/eventCommunications": typeof tables_eventCommunications;
+  "tables/events": typeof tables_events;
   "tables/linkedAccounts": typeof tables_linkedAccounts;
+  "tables/organizationMembers": typeof tables_organizationMembers;
+  "tables/organizations": typeof tables_organizations;
+  "tables/registrations": typeof tables_registrations;
   "tables/sessions": typeof tables_sessions;
   "tables/user": typeof tables_user;
 }>;
