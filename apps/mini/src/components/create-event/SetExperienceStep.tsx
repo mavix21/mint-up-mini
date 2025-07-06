@@ -1,13 +1,6 @@
 import { useFormContext } from "react-hook-form";
 
-import { Button } from "@mint-up/ui/components/button";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@mint-up/ui/components/form";
+import { FormControl, FormField, FormItem } from "@mint-up/ui/components/form";
 import { Label } from "@mint-up/ui/components/label";
 import { Switch } from "@mint-up/ui/components/switch";
 
