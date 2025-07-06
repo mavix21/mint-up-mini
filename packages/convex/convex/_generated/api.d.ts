@@ -14,7 +14,8 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as events from "../events.js";
-import type * as index from "../index.js";
+import type * as nextjs from "../nextjs.js";
+import type * as react from "../react.js";
 import type * as storage from "../storage.js";
 import type * as tables_eventCommunications from "../tables/eventCommunications.js";
 import type * as tables_events from "../tables/events.js";
@@ -35,7 +36,8 @@ import type * as tables_user from "../tables/user.js";
  */
 declare const fullApi: ApiFromModules<{
   events: typeof events;
-  index: typeof index;
+  nextjs: typeof nextjs;
+  react: typeof react;
   storage: typeof storage;
   "tables/eventCommunications": typeof tables_eventCommunications;
   "tables/events": typeof tables_events;
