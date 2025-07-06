@@ -46,12 +46,33 @@ const CreateEvent = () => {
     mode: "onChange",
   });
 
-  const {
-    watch,
-    trigger,
-    formState: { errors },
-  } = form;
+  const { watch, trigger } = form;
   const formData = watch();
+
+  // Function to check if current step is valid
+  const isCurrentStepValid = () => {
+    if (currentStep === 1) {
+      return !!(
+        formData.eventName.trim() &&
+        formData.startDate &&
+        formData.endDate &&
+        formData.location.trim() &&
+        formData.description.trim() &&
+        formData.description.length >= 10 &&
+        formData.selectedImage
+      );
+    } else if (currentStep === 2) {
+      return !!(formData.nftName.trim() && formData.nftDescription.trim());
+    } else if (currentStep === 3) {
+      return !!(
+        formData.ticketTypes.length > 0 &&
+        formData.ticketTypes.every(
+          (ticket) => ticket.name.trim() && ticket.price,
+        )
+      );
+    }
+    return false;
+  };
 
   const nextStep = async () => {
     if (currentStep < 3) {
@@ -148,15 +169,24 @@ const CreateEvent = () => {
                       <Button
                         type="button"
                         onClick={nextStep}
-                        className="px-6"
-                        disabled={currentStep === 1 && !formData.selectedImage}
+                        className={`px-6 ${
+                          !isCurrentStepValid()
+                            ? "cursor-not-allowed opacity-50"
+                            : ""
+                        }`}
+                        disabled={!isCurrentStepValid()}
                       >
                         Next Step
                       </Button>
                     ) : (
                       <Button
                         type="submit"
-                        className="bg-primary hover:bg-primary/90 px-8 font-semibold text-black"
+                        className={`bg-primary hover:bg-primary/90 px-8 font-semibold text-black ${
+                          !isCurrentStepValid()
+                            ? "cursor-not-allowed opacity-50"
+                            : ""
+                        }`}
+                        disabled={!isCurrentStepValid()}
                       >
                         Create Event
                       </Button>
