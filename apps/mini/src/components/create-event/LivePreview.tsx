@@ -123,11 +123,8 @@ const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
 
     return (
       <div
-        className="relative flex flex-col items-center justify-center"
-        style={{
-          height: `${384 + (ticketTemplates.length - 1) * 8}px`,
-          width: "20rem",
-        }}
+        className="relative flex w-full max-w-xs flex-col items-center justify-center sm:max-w-md"
+        style={{ height: `${384 + (ticketTemplates.length - 1) * 8}px` }}
       >
         {/* Card Deck */}
         <div className="relative flex h-full w-full items-center justify-center">
@@ -147,13 +144,12 @@ const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
             return (
               <div
                 key={ticket.id}
-                className="absolute left-0 right-0 mx-auto transition-all duration-300"
+                className="absolute flex w-full justify-center transition-all duration-300"
                 style={{
                   top: `${offsetY}px`,
                   transform: `scale(${scale}) rotate(${rotation}deg)`,
                   zIndex: z,
                   opacity,
-                  width: "100%",
                   pointerEvents: deckPos === 0 ? "auto" : "none",
                 }}
               >
@@ -178,8 +174,7 @@ const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
                       type="button"
                       aria-label="Previous Ticket"
                       onClick={handlePrev}
-                      className="bg-card border-border hover:bg-accent absolute left-0 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 rounded-full border p-2 shadow transition-colors"
-                      style={{ marginLeft: "-2.5rem" }}
+                      className="bg-card/80 border-border hover:bg-accent absolute left-2 top-1/2 z-20 -translate-y-1/2 rounded-full border p-2 shadow transition-colors"
                     >
                       <ChevronLeft className="h-5 w-5" />
                     </button>
@@ -187,8 +182,7 @@ const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
                       type="button"
                       aria-label="Next Ticket"
                       onClick={handleNext}
-                      className="bg-card border-border hover:bg-accent absolute right-0 top-1/2 z-20 -translate-y-1/2 translate-x-1/2 rounded-full border p-2 shadow transition-colors"
-                      style={{ marginRight: "-2.5rem" }}
+                      className="bg-card/80 border-border hover:bg-accent absolute right-2 top-1/2 z-20 -translate-y-1/2 rounded-full border p-2 shadow transition-colors"
                     >
                       <ChevronRight className="h-5 w-5" />
                     </button>
