@@ -3,17 +3,37 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { z } from "zod/v4";
 
+import type { Id } from "@mint-up/convex/_generated/dataModel";
+import { api } from "@mint-up/convex/_generated/api";
+import { useMutation } from "@mint-up/convex/react";
 import { Button } from "@mint-up/ui/components/button";
 import { Form } from "@mint-up/ui/components/form";
 
 import type { EventFormValues } from "../lib/schemas/eventForm";
+import { uploadFile } from "../actions/uploadFile.action";
 import DesignCollectibleStep from "../components/create-event/DesignCollectibleStep";
 import EventDetailsStep from "../components/create-event/EventDetailsStep";
 import LivePreview from "../components/create-event/LivePreview";
 import SetExperienceStep from "../components/create-event/SetExperienceStep";
 import StepIndicator from "../components/create-event/StepIndicator";
 import { eventFormSchema } from "../lib/schemas/eventForm";
+
+// Helper to check if a string is a blob or data URL
+const isLocalImageUrl = (url: string) =>
+  typeof url === "string" &&
+  (url.startsWith("blob:") || url.startsWith("data:"));
+
+// Helper to convert blob/data URL to File
+async function blobUrlToFile(
+  blobUrl: string,
+  fileName = "image.jpg",
+): Promise<File> {
+  const res = await fetch(blobUrl);
+  const blob = await res.blob();
+  return new File([blob], fileName, { type: blob.type });
+}
 
 const CreateEvent = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -86,69 +106,64 @@ const CreateEvent = () => {
   const { watch, trigger } = form;
   const formData = watch();
 
-  // Function to check if current step is valid
-  const isCurrentStepValid = () => {
-    if (currentStep === 1) {
-      return !!(
-        formData.name?.trim() &&
-        formData.startDate &&
-        formData.location &&
-        ((formData.location.type === "online" && formData.location.url) ||
-          (formData.location.type === "in-person" &&
-            formData.location.address)) &&
-        formData.description?.trim() &&
-        formData.selectedImage
-      );
-    } else if (currentStep === 2) {
-      return !!(
-        formData.poapTemplate?.name?.trim() && formData.poapTemplate?.nft?.image
-      );
-    } else if (currentStep === 3) {
-      return !!(
-        formData.ticketTemplates.length > 0 &&
-        formData.ticketTemplates.every(
-          (ticket) => ticket.name.trim() && ticket.nft.image,
-        )
-      );
+  const createEvent = useMutation(api.events.createEvent);
+
+  // Helper: get the schema for the current step
+  const getStepSchema = (step: number) => {
+    if (step === 1) {
+      return eventFormSchema.pick({
+        name: true,
+        startDate: true,
+        endDate: true,
+        location: true,
+        description: true,
+        selectedImage: true,
+      });
+    } else if (step === 2) {
+      return eventFormSchema.pick({
+        poapTemplate: true,
+        ticketTemplates: true,
+      });
+    } else if (step === 3) {
+      // no schema for this step
+      return z.object({});
     }
-    return false;
+    return eventFormSchema;
   };
 
+  // Synchronous validation for UI
+  const isCurrentStepValid =
+    getStepSchema(currentStep).safeParse(formData).success;
+
   const nextStep = async () => {
-    if (currentStep < 3) {
-      // Validate current step fields
-      let isValid = false;
-
-      if (currentStep === 1) {
-        isValid = await trigger([
-          "name",
-          "startDate",
-          "endDate",
-          "location",
-          "description",
-          "selectedImage",
-        ]);
-      } else if (currentStep === 2) {
-        isValid = await trigger(["poapTemplate"]);
-      } else if (currentStep === 3) {
-        isValid = await trigger(["ticketTemplates"]);
-      }
-
-      if (!isValid) {
-        return;
-      }
-
-      // Auto-set ticket artwork to event image when entering step 2
-      if (
-        currentStep === 1 &&
-        formData.selectedImage &&
-        !formData.ticketArtwork
-      ) {
-        form.setValue("ticketArtwork", formData.selectedImage);
-      }
-
-      setCurrentStep(currentStep + 1);
+    let isValid = false;
+    if (currentStep === 1) {
+      isValid = await trigger([
+        "name",
+        "startDate",
+        "endDate",
+        "location",
+        "description",
+        "selectedImage",
+      ]);
+    } else if (currentStep === 2) {
+      isValid = await trigger(["poapTemplate", "ticketTemplates"]);
+    } else if (currentStep === 3) {
+      // no validation for this step
+      isValid = true;
     }
+    if (!isValid) {
+      return;
+    }
+    // Auto-set ticket artwork to event image when entering step 2
+    if (
+      currentStep === 1 &&
+      formData.selectedImage &&
+      !formData.ticketArtwork
+    ) {
+      form.setValue("ticketArtwork", formData.selectedImage);
+    }
+    setCurrentStep(currentStep + 1);
   };
 
   const prevStep = () => {
@@ -157,9 +172,78 @@ const CreateEvent = () => {
     }
   };
 
-  const handleCreateEvent = async (data: any) => {
-    console.log("Creating event with data:", data);
-    // Here you would typically submit the form data
+  const handleCreateEvent = async (data: EventFormValues) => {
+    console.log("handle create event", { data, currentStep });
+    // Helper to process an image field: upload if blob/data URL, else throw
+    const processImage = async (image: string): Promise<Id<"_storage">> => {
+      const file = await blobUrlToFile(image);
+      const { storageId } = await uploadFile(file);
+      return storageId;
+    };
+
+    // Validate all required images are valid local image URLs and defined
+    if (
+      !data.selectedImage ||
+      !isLocalImageUrl(data.selectedImage) ||
+      !data.ticketTemplates.every(
+        (t) => t.nft.image && isLocalImageUrl(t.nft.image),
+      ) ||
+      !data.poapTemplate.nft.image ||
+      !isLocalImageUrl(data.poapTemplate.nft.image)
+    ) {
+      alert(
+        "All image fields must be valid local images (blob/data URLs) before creating the event.",
+      );
+      return;
+    }
+
+    // Process selectedImage
+    const selectedImageId = await processImage(data.selectedImage);
+
+    // Process poapTemplate image if present
+    const poapImageId = await processImage(data.poapTemplate.nft.image);
+
+    // Process ticketTemplates images
+    const ticketImageIds = await Promise.all(
+      data.ticketTemplates.map((t) => processImage(t.nft.image)),
+    );
+
+    // Build new ticketTemplates array with processed images
+    const newTicketTemplates = data.ticketTemplates.map((t, i) => ({
+      ...t,
+      nft: {
+        ...t.nft,
+        image: ticketImageIds[i] as Id<"_storage">,
+      },
+    }));
+
+    // Build new poapTemplate with processed image if present
+    const newPoapTemplate = {
+      ...data.poapTemplate,
+      nft: {
+        ...data.poapTemplate.nft,
+        image: poapImageId,
+      },
+    };
+
+    // Build the final payload (pure, new object)
+    const payload = {
+      name: data.name,
+      image: selectedImageId,
+      description: data.description,
+      startDate: new Date(data.startDate).getTime(),
+      endDate: data.endDate ? new Date(data.endDate).getTime() : undefined,
+      creatorId: "jd7fpgekyphgg3mx2nenvp5g8s7k6pg7" as Id<"users">,
+      organizationId: undefined,
+      location: data.location,
+      visibility: data.visibility ?? "public",
+      hosts: [],
+      ticketTemplates: newTicketTemplates,
+      poapTemplate: newPoapTemplate,
+      automatedFlows: data.automatedFlows,
+    };
+
+    await createEvent(payload);
   };
 
   return (
@@ -183,8 +267,8 @@ const CreateEvent = () => {
               {/* Form Provider */}
               <Form {...form}>
                 <form
-                  onSubmit={form.handleSubmit(handleCreateEvent)}
                   className="mt-8"
+                  onSubmit={form.handleSubmit(handleCreateEvent)}
                 >
                   {/* Step Content */}
                   <div>
@@ -208,25 +292,25 @@ const CreateEvent = () => {
                     {currentStep < 3 ? (
                       <Button
                         type="button"
-                        onClick={nextStep}
+                        onMouseDown={nextStep}
                         className={`px-6 ${
-                          !isCurrentStepValid()
+                          !isCurrentStepValid
                             ? "cursor-not-allowed opacity-50"
                             : ""
                         }`}
-                        disabled={!isCurrentStepValid()}
+                        disabled={!isCurrentStepValid}
                       >
                         Next Step
                       </Button>
                     ) : (
                       <Button
                         type="submit"
-                        className={`bg-primary hover:bg-primary/90 px-8 font-semibold text-black ${
-                          !isCurrentStepValid()
+                        className={`bg-primary hover:bg-primary/90 px-8 font-semibold ${
+                          !isCurrentStepValid
                             ? "cursor-not-allowed opacity-50"
                             : ""
                         }`}
-                        disabled={!isCurrentStepValid()}
+                        disabled={!isCurrentStepValid}
                       >
                         Create Event
                       </Button>

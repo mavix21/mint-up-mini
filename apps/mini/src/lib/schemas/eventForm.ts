@@ -42,29 +42,18 @@ export const eventFormSchema = z.object({
   name: z.string().min(1, "Event name is required"),
   startDate: z.string().min(1, "Start date is required"),
   endDate: z.string().optional(),
-  location: z
-    .object({
-      type: z.enum(["online", "in-person"]),
-      url: z.string().optional(),
-      address: z.string().optional(),
+  location: z.discriminatedUnion("type", [
+    z.object({
+      type: z.literal("online"),
+      url: z.string().min(1, "URL is required for online events"),
       instructions: z.string().optional(),
-    })
-    .superRefine((data, ctx) => {
-      if (data.type === "online" && !data.url) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "URL is required for online events",
-          path: ["url"],
-        });
-      }
-      if (data.type === "in-person" && !data.address) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Address is required for in-person events",
-          path: ["address"],
-        });
-      }
     }),
+    z.object({
+      type: z.literal("in-person"),
+      address: z.string().min(1, "Address is required for in-person events"),
+      instructions: z.string().optional(),
+    }),
+  ]),
   description: z.string().optional(),
   visibility: z.enum(["public", "unlisted"]).optional(),
 
@@ -92,17 +81,14 @@ export const eventFormSchema = z.object({
     )
     .min(1, "At least one ticket template is required"),
 
-  poapTemplate: z
-    .object({
-      name: z.string().min(1, "POAP name is required"),
-      description: z.string().optional(),
-      nft: z.object({
-        image: z.string().min(1, "POAP image is required"),
-        metadata: z.any().optional(),
-      }),
-    })
-    .optional(),
-
+  poapTemplate: z.object({
+    name: z.string().min(1, "POAP name is required"),
+    description: z.string().optional(),
+    nft: z.object({
+      image: z.string().min(1, "POAP image is required"),
+      metadata: z.any().optional(),
+    }),
+  }),
   automatedFlows: z
     .array(
       z.object({

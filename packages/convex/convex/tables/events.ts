@@ -49,16 +49,14 @@ export const eventsTable = defineTable({
       }),
     }),
   ),
-  poapTemplate: v.optional(
-    v.object({
-      name: v.string(),
-      description: v.optional(v.string()),
-      nft: v.object({
-        image: v.id("_storage"),
-        metadata: v.optional(v.any()),
-      }),
+  poapTemplate: v.object({
+    name: v.string(),
+    description: v.optional(v.string()),
+    nft: v.object({
+      image: v.id("_storage"),
+      metadata: v.optional(v.any()),
     }),
-  ),
+  }),
 
   ticketPurchases: v.array(
     v.object({
