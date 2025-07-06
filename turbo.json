@@ -44,7 +44,14 @@
       "outputs": []
     }
   },
-  "globalEnv": ["POSTGRES_URL", "AUTH_REDIRECT_PROXY_URL", "PORT"],
+  "globalEnv": [
+    "POSTGRES_URL",
+    "AUTH_REDIRECT_PROXY_URL",
+    "PORT",
+    "NEXTAUTH_SECRET",
+    "NEYNAR_API_KEY",
+    "NEYNAR_CLIENT_ID"
+  ],
   "globalPassThroughEnv": [
     "NODE_ENV",
     "CI",
