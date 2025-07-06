@@ -6,6 +6,7 @@ export const APP_DESCRIPTION =
 export const APP_PRIMARY_CATEGORY = "social";
 export const APP_TAGS = "event,events,ticketing,rsvp,meetup,mint".split(",");
 
+export const APP_URL = env.NEXT_PUBLIC_URL;
 export const APP_ICON_URL = `${env.NEXT_PUBLIC_URL}/icon.png`;
 export const APP_OG_IMAGE_URL = `${env.NEXT_PUBLIC_URL}/api/opengraph-image`;
 export const APP_SPLASH_URL = `${env.NEXT_PUBLIC_URL}/splash.png`;
