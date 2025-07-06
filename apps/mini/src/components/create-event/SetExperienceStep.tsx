@@ -1,8 +1,16 @@
 import { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
+import { useFieldArray, useFormContext } from "react-hook-form";
 
 import { Button } from "@mint-up/ui/components/button";
 import { Card, CardContent } from "@mint-up/ui/components/card";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@mint-up/ui/components/form";
 import { Input } from "@mint-up/ui/components/input";
 import { Label } from "@mint-up/ui/components/label";
 import {
@@ -14,25 +22,19 @@ import {
 } from "@mint-up/ui/components/select";
 import { Switch } from "@mint-up/ui/components/switch";
 
-interface TicketType {
-  id: string;
-  name: string;
-  price: string;
-  priceAmount?: string;
-  currency?: string;
-  requiresApproval: boolean;
-}
+import type { EventFormValues, TicketType } from "../../lib/schemas/eventForm";
 
-interface SetExperienceStepProps {
-  formData: any;
-  updateFormData: (field: string, value: any) => void;
-}
-
-const SetExperienceStep = ({
-  formData,
-  updateFormData,
-}: SetExperienceStepProps) => {
+const SetExperienceStep = () => {
   const [showCapacityInput, setShowCapacityInput] = useState(false);
+
+  const form = useFormContext<EventFormValues>();
+  const { watch, setValue } = form;
+  const capacity = watch("capacity");
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "ticketTypes",
+  });
 
   const addTicketType = () => {
     const newTicketType: TicketType = {
@@ -41,27 +43,13 @@ const SetExperienceStep = ({
       price: "Free",
       requiresApproval: false,
     };
-    updateFormData("ticketTypes", [...formData.ticketTypes, newTicketType]);
+    append(newTicketType);
   };
 
-  const removeTicketType = (id: string) => {
-    if (formData.ticketTypes.length > 1) {
-      updateFormData(
-        "ticketTypes",
-        formData.ticketTypes.filter((ticket: TicketType) => ticket.id !== id),
-      );
+  const removeTicketType = (index: number) => {
+    if (fields.length > 1) {
+      remove(index);
     }
-  };
-
-  const updateTicketType = (
-    id: string,
-    field: keyof TicketType,
-    value: any,
-  ) => {
-    const updatedTicketTypes = formData.ticketTypes.map((ticket: TicketType) =>
-      ticket.id === id ? { ...ticket, [field]: value } : ticket,
-    );
-    updateFormData("ticketTypes", updatedTicketTypes);
   };
 
   return (
@@ -91,19 +79,19 @@ const SetExperienceStep = ({
         </div>
 
         <div className="space-y-4">
-          {formData.ticketTypes.map((ticket: TicketType, index: number) => (
-            <Card key={ticket.id} className="p-4">
+          {fields.map((field, index) => (
+            <Card key={field.id} className="p-4">
               <CardContent className="space-y-4 p-0">
                 <div className="flex items-center justify-between">
                   <Label className="text-foreground font-medium">
                     Ticket {index + 1}
                   </Label>
-                  {formData.ticketTypes.length > 1 && (
+                  {fields.length > 1 && (
                     <Button
                       type="button"
                       variant="ghost"
                       size="sm"
-                      onClick={() => removeTicketType(ticket.id)}
+                      onClick={() => removeTicketType(index)}
                       className="text-destructive hover:text-destructive"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -112,81 +100,99 @@ const SetExperienceStep = ({
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label className="text-foreground text-sm">
-                      Ticket Name
-                    </Label>
-                    <Input
-                      placeholder="e.g., General Admission"
-                      value={ticket.name}
-                      onChange={(e) =>
-                        updateTicketType(ticket.id, "name", e.target.value)
-                      }
-                    />
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name={`ticketTypes.${index}.name`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm">Ticket Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g., General Admission"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                  <div className="space-y-2">
-                    <Label className="text-foreground text-sm">Price</Label>
-                    <Select
-                      value={ticket.price}
-                      onValueChange={(value) =>
-                        updateTicketType(ticket.id, "price", value)
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Free">Free</SelectItem>
-                        <SelectItem value="Paid (Crypto)">
-                          Paid (Crypto)
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name={`ticketTypes.${index}.price`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm">Price</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Free">Free</SelectItem>
+                            <SelectItem value="Paid (Crypto)">
+                              Paid (Crypto)
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
                 {/* Price and Currency fields for paid tickets */}
-                {ticket.price === "Paid (Crypto)" && (
+                {watch(`ticketTypes.${index}.price`) === "Paid (Crypto)" && (
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div className="space-y-2">
-                      <Label className="text-foreground text-sm">
-                        Price Amount
-                      </Label>
-                      <Input
-                        placeholder="0.00"
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        value={ticket.priceAmount || ""}
-                        onChange={(e) =>
-                          updateTicketType(
-                            ticket.id,
-                            "priceAmount",
-                            e.target.value,
-                          )
-                        }
-                      />
-                    </div>
+                    <FormField
+                      control={form.control}
+                      name={`ticketTypes.${index}.priceAmount`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm">
+                            Price Amount
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="0.00"
+                              type="number"
+                              step="0.01"
+                              min="0"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                    <div className="space-y-2">
-                      <Label className="text-foreground text-sm">
-                        Currency
-                      </Label>
-                      <Select
-                        value={ticket.currency || "USDC"}
-                        onValueChange={(value) =>
-                          updateTicketType(ticket.id, "currency", value)
-                        }
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="USDC">USDC</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                    <FormField
+                      control={form.control}
+                      name={`ticketTypes.${index}.currency`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm">Currency</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value || "USDC"}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="USDC">USDC</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
                 )}
 
@@ -197,11 +203,20 @@ const SetExperienceStep = ({
                       Manually approve registrations for this ticket type
                     </p>
                   </div>
-                  <Switch
-                    checked={ticket.requiresApproval}
-                    onCheckedChange={(checked) =>
-                      updateTicketType(ticket.id, "requiresApproval", checked)
-                    }
+                  <FormField
+                    control={form.control}
+                    name={`ticketTypes.${index}.requiresApproval`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
                 </div>
               </CardContent>
@@ -220,21 +235,32 @@ const SetExperienceStep = ({
           <div className="flex items-center justify-between">
             <Label className="text-foreground">Capacity</Label>
             <div className="flex items-center space-x-2">
-              <Select
-                value={formData.capacity}
-                onValueChange={(value) => {
-                  updateFormData("capacity", value);
-                  setShowCapacityInput(value === "Limited");
-                }}
-              >
-                <SelectTrigger className="w-32">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Unlimited">Unlimited</SelectItem>
-                  <SelectItem value="Limited">Limited</SelectItem>
-                </SelectContent>
-              </Select>
+              <FormField
+                control={form.control}
+                name="capacity"
+                render={({ field }) => (
+                  <FormItem>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        setShowCapacityInput(value === "Limited");
+                      }}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-32">
+                          <SelectValue />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Unlimited">Unlimited</SelectItem>
+                        <SelectItem value="Limited">Limited</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               {showCapacityInput && (
                 <Input
                   placeholder="Max attendees"
@@ -261,11 +287,20 @@ const SetExperienceStep = ({
                 Let attendees participate in live raffles during the event
               </p>
             </div>
-            <Switch
-              checked={formData.enableRaffles}
-              onCheckedChange={(checked) =>
-                updateFormData("enableRaffles", checked)
-              }
+            <FormField
+              control={form.control}
+              name="enableRaffles"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
 
@@ -278,11 +313,20 @@ const SetExperienceStep = ({
                 Engage your audience with live trivia questions
               </p>
             </div>
-            <Switch
-              checked={formData.enableTrivia}
-              onCheckedChange={(checked) =>
-                updateFormData("enableTrivia", checked)
-              }
+            <FormField
+              control={form.control}
+              name="enableTrivia"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
 
@@ -295,11 +339,20 @@ const SetExperienceStep = ({
                 Automatically send POAP when attendees check in
               </p>
             </div>
-            <Switch
-              checked={formData.autoDeliverPOAPs}
-              onCheckedChange={(checked) =>
-                updateFormData("autoDeliverPOAPs", checked)
-              }
+            <FormField
+              control={form.control}
+              name="autoDeliverPOAPs"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
         </div>

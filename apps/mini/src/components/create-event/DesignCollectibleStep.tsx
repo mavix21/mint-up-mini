@@ -1,30 +1,37 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Image as Img, Upload, X } from "lucide-react";
+import { useFormContext } from "react-hook-form";
 
 import { Button } from "@mint-up/ui/components/button";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@mint-up/ui/components/form";
 import { Input } from "@mint-up/ui/components/input";
 import { Label } from "@mint-up/ui/components/label";
 import { Textarea } from "@mint-up/ui/components/textarea";
 
+import type { EventFormValues } from "../../lib/schemas/eventForm";
 import ImageCropDialog from "./ImageCropDialog";
 
-interface DesignCollectibleStepProps {
-  formData: any;
-  updateFormData: (field: string, value: any) => void;
-}
-
-const DesignCollectibleStep = ({
-  formData,
-  updateFormData,
-}: DesignCollectibleStepProps) => {
+const DesignCollectibleStep = () => {
   const [activeTab, setActiveTab] = useState("nft");
   const [tempImageSrc, setTempImageSrc] = useState<string | null>(null);
   const [isCropDialogOpen, setIsCropDialogOpen] = useState(false);
 
+  const form = useFormContext<EventFormValues>();
+  const { watch, setValue } = form;
+  const selectedImage = watch("selectedImage");
+  const ticketArtwork = watch("ticketArtwork");
+  const eventName = watch("eventName");
+
   // Show ticket artwork or event image as fallback, but allow removal
-  const showTicketArtwork = formData.ticketArtwork !== null;
-  const displayImage = formData.ticketArtwork || formData.selectedImage;
+  const showTicketArtwork = ticketArtwork !== null;
+  const displayImage = ticketArtwork || selectedImage;
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -40,13 +47,13 @@ const DesignCollectibleStep = ({
   };
 
   const handleCropComplete = (croppedImageUrl: string) => {
-    updateFormData("ticketArtwork", croppedImageUrl);
+    setValue("ticketArtwork", croppedImageUrl);
     setTempImageSrc(null);
   };
 
   const handleRemoveImage = () => {
-    // Set to null to hide the ticket artwork section entirely
-    updateFormData("ticketArtwork", null);
+    // Set to empty string to hide the ticket artwork section entirely
+    setValue("ticketArtwork", "");
   };
 
   return (
@@ -91,7 +98,7 @@ const DesignCollectibleStep = ({
               image)
             </p>
 
-            {displayImage && formData.ticketArtwork ? (
+            {displayImage && ticketArtwork ? (
               <div className="border-border relative h-48 w-48 overflow-hidden rounded-lg border-2 border-dashed">
                 <Image
                   width={100}
@@ -125,7 +132,7 @@ const DesignCollectibleStep = ({
               <div className="border-border rounded-lg border-2 border-dashed p-6 text-center">
                 <Upload className="text-muted-foreground mx-auto mb-2 h-8 w-8" />
                 <p className="text-muted-foreground mb-2 text-sm">
-                  {formData.selectedImage
+                  {selectedImage
                     ? "Use event image or upload different artwork"
                     : "Click to upload ticket artwork"}
                 </p>
@@ -133,14 +140,14 @@ const DesignCollectibleStep = ({
                   type="button"
                   variant="outline"
                   onClick={() => {
-                    if (formData.selectedImage && !formData.ticketArtwork) {
-                      updateFormData("ticketArtwork", formData.selectedImage);
+                    if (selectedImage && !ticketArtwork) {
+                      setValue("ticketArtwork", selectedImage);
                     } else {
                       document.getElementById("ticketImageUpload")?.click();
                     }
                   }}
                 >
-                  {formData.selectedImage && !formData.ticketArtwork
+                  {selectedImage && !ticketArtwork
                     ? "Use Event Image"
                     : "Choose File"}
                 </Button>
@@ -157,32 +164,41 @@ const DesignCollectibleStep = ({
             />
           </div>
 
-          <div>
-            <Label htmlFor="nftName" className="text-foreground">
-              NFT Name
-            </Label>
-            <Input
-              id="nftName"
-              placeholder="e.g., Mint Up! Genesis Pass"
-              value={formData.nftName || formData.eventName || ""}
-              onChange={(e) => updateFormData("nftName", e.target.value)}
-              className="mt-1"
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name="nftName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>NFT Name</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="e.g., Mint Up! Genesis Pass"
+                    {...field}
+                    value={field.value || eventName || ""}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div>
-            <Label htmlFor="nftDescription" className="text-foreground">
-              NFT Description
-            </Label>
-            <Textarea
-              id="nftDescription"
-              placeholder="This will appear on marketplaces like OpenSea."
-              value={formData.nftDescription}
-              onChange={(e) => updateFormData("nftDescription", e.target.value)}
-              rows={3}
-              className="mt-1"
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name="nftDescription"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>NFT Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="This will appear on marketplaces like OpenSea."
+                    rows={3}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
       )}
 
