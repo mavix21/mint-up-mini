@@ -13,6 +13,7 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as events from "../events.js";
 import type * as index from "../index.js";
 import type * as storage from "../storage.js";
 import type * as tables_eventCommunications from "../tables/eventCommunications.js";
@@ -33,6 +34,7 @@ import type * as tables_user from "../tables/user.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  events: typeof events;
   index: typeof index;
   storage: typeof storage;
   "tables/eventCommunications": typeof tables_eventCommunications;

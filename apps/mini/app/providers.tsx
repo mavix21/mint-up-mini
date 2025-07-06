@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { MiniAppProvider } from "@neynar/react";
 import { SessionProvider } from "next-auth/react";
 
+import { ConvexClientProvider } from "@/src/components/providers/ConvexProvider";
 import { SafeFarcasterSolanaProvider } from "@/src/components/providers/SafeFarcasterSolanaProvider";
 import { ANALYTICS_ENABLED } from "@/src/lib/constants";
 
@@ -32,7 +33,7 @@ export function Providers({
           backButtonEnabled={true}
         >
           <SafeFarcasterSolanaProvider endpoint={solanaEndpoint}>
-            {children}
+            <ConvexClientProvider>{children}</ConvexClientProvider>
           </SafeFarcasterSolanaProvider>
         </MiniAppProvider>
       </WagmiProvider>
