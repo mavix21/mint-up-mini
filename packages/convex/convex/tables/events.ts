@@ -4,7 +4,7 @@ import { v } from "convex/values";
 export const eventsTable = defineTable({
   name: v.string(),
   slug: v.string(),
-  bannerImage: v.optional(v.id("_storage")),
+  image: v.optional(v.id("_storage")),
   description: v.optional(v.string()),
   startDate: v.number(),
   endDate: v.optional(v.number()),
@@ -41,7 +41,7 @@ export const eventsTable = defineTable({
         v.object({ type: v.literal("paid"), currency: v.string() }),
       ),
       nft: v.object({
-        imageUrl: v.string(),
+        image: v.id("_storage"),
         metadata: v.optional(v.any()),
       }),
     }),
@@ -51,7 +51,7 @@ export const eventsTable = defineTable({
       name: v.string(),
       description: v.optional(v.string()),
       nft: v.object({
-        imageUrl: v.string(),
+        image: v.id("_storage"),
         metadata: v.optional(v.any()),
       }),
     }),
