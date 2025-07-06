@@ -22,9 +22,13 @@
       "types": "./convex/_generated/*.d.ts",
       "default": "./convex/_generated/*.js"
     },
-    ".": {
-      "types": "./convex/index.d.ts",
-      "default": "./convex/index.js"
+    "./nextjs": {
+      "types": "./convex/nextjs.ts",
+      "default": "./convex/nextjs.ts"
+    },
+    "./react": {
+      "types": "./convex/react.ts",
+      "default": "./convex/react.ts"
     }
   },
   "prettier": "@mint-up/prettier-config"
