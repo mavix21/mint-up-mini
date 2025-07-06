@@ -75,7 +75,9 @@ const DesignCollectibleStep = () => {
       fields.forEach((field, index) => {
         const currentName = watch(`ticketTemplates.${index}.name`);
         if (!currentName) {
-          setValue(`ticketTemplates.${index}.name`, eventName);
+          setValue(`ticketTemplates.${index}.name`, eventName, {
+            shouldValidate: true,
+          });
         }
       });
     }
@@ -134,7 +136,7 @@ const DesignCollectibleStep = () => {
       </div>
 
       {/* Ticket Templates Section */}
-      <div className="space-y-6">
+      <div className="space-y-2">
         <div className="flex items-center justify-between">
           <h3 className="text-foreground text-lg font-semibold">NFT Tickets</h3>
           <Button
@@ -152,7 +154,7 @@ const DesignCollectibleStep = () => {
         <div className="space-y-4">
           {fields.map((field, index) => (
             <Card key={field.id} className="p-4">
-              <CardContent className="space-y-4 p-0">
+              <CardContent className="space-y-2 p-0">
                 <div className="flex items-center justify-between">
                   <Label className="text-foreground font-medium">
                     Ticket {index + 1}
@@ -170,7 +172,7 @@ const DesignCollectibleStep = () => {
                   )}
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                   <FormField
                     control={form.control}
                     name={`ticketTemplates.${index}.name`}
