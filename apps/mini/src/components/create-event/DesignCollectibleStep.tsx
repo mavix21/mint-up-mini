@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Image as Img, Upload, X } from "lucide-react";
 import { useFormContext } from "react-hook-form";
@@ -30,8 +30,15 @@ const DesignCollectibleStep = () => {
   const eventName = watch("eventName");
 
   // Show ticket artwork or event image as fallback, but allow removal
-  const showTicketArtwork = ticketArtwork !== null;
-  const displayImage = ticketArtwork || selectedImage;
+  // const showTicketArtwork = ticketArtwork !== null;
+  const displayImage = ticketArtwork ?? selectedImage;
+
+  // Auto-fill nftName with eventName if empty
+  useEffect(() => {
+    if (eventName && !form.getValues("nftName")) {
+      form.setValue("nftName", eventName);
+    }
+  }, [eventName, form]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -171,11 +178,7 @@ const DesignCollectibleStep = () => {
               <FormItem>
                 <FormLabel>NFT Name</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="e.g., Mint Up! Genesis Pass"
-                    {...field}
-                    value={field.value || eventName || ""}
-                  />
+                  <Input placeholder="e.g., Mint Up! Genesis Pass" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
