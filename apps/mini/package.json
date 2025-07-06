@@ -31,6 +31,7 @@
     "@farcaster/frame-sdk": "^0.0.64",
     "@farcaster/frame-wagmi-connector": ">=0.0.19 <1.0.0",
     "@farcaster/mini-app-solana": "1.0.2",
+    "@hookform/resolvers": "^5.1.1",
     "@mint-up/convex": "workspace:*",
     "@mint-up/ui": "workspace:*",
     "@neynar/nodejs-sdk": "^3.21.0",
@@ -50,9 +51,11 @@
     "qrcode": "^1.5.4",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
+    "react-hook-form": "^7.60.0",
     "react-image-crop": "^11.0.10",
     "viem": "^2.31.7",
     "wagmi": "^2.15.6",
+    "xstate": "^5.20.0",
     "zod": "catalog:"
   },
   "devDependencies": {
