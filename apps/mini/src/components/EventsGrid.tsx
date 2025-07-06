@@ -87,9 +87,7 @@ const EventsGrid = () => {
           .toUpperCase(),
         day: new Date(event.startDate).getDate().toString(),
       },
-      image: event.bannerImage
-        ? `/api/storage/${event.bannerImage}`
-        : "/placeholder.svg",
+      image: event.image ? `/api/storage/${event.image}` : "/placeholder.svg",
       attendeeCount: event.ticketPurchases?.length || 0,
       location:
         event.location.type === "online" ? "Online" : event.location.address,

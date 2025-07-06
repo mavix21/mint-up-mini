@@ -14,6 +14,8 @@ import {
   TabsTrigger,
 } from "@mint-up/ui/components/tabs";
 
+import MissionControl from "./MissionControl";
+
 interface EventStats {
   mints?: number;
   capacity?: number | null;
@@ -36,6 +38,7 @@ interface Event {
 export default function MyEvents() {
   const navigate = useRouter();
   const [activeTab, setActiveTab] = useState("upcoming");
+  const [managedEventId, setManagedEventId] = useState<string | null>(null);
 
   // Mock data based on the requirements
   const upcomingEvents: Event[] = [
@@ -218,7 +221,7 @@ export default function MyEvents() {
               size="sm"
               onClick={() => {
                 if (event.userRole === "host") {
-                  navigate.push(`/mission-control/${event.id}`);
+                  setManagedEventId(event.id);
                 }
               }}
             >
@@ -254,6 +257,15 @@ export default function MyEvents() {
       </Card>
     );
   };
+
+  if (managedEventId) {
+    return (
+      <MissionControl
+        eventId={managedEventId}
+        onBack={() => setManagedEventId(null)}
+      />
+    );
+  }
 
   return (
     <div className="bg-background min-h-screen">

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
 import {
   Calendar,
   Clock,
@@ -39,9 +38,13 @@ import { Textarea } from "@mint-up/ui/components/textarea";
 
 import EventTicketCard from "../components/EventTicketCard";
 
-const MissionControl = () => {
-  const { id } = useParams();
-  const navigate = useRouter();
+const MissionControl = ({
+  eventId,
+  onBack,
+}: {
+  eventId: string;
+  onBack: () => void;
+}) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
   const [castText, setCastText] = useState(
@@ -149,6 +152,10 @@ const MissionControl = () => {
   return (
     <div className="bg-background min-h-screen">
       <div className="container mx-auto max-w-6xl px-6 py-12">
+        {/* Botón para volver */}
+        <button onClick={onBack} className="text-primary mb-4 underline">
+          ← Back to My Events
+        </button>
         {/* Page Header */}
         <div className="mb-12 flex items-center justify-between">
           <h1 className="text-foreground text-4xl font-bold">
