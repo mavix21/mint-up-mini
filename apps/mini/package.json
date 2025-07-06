@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "pnpm with-env node scripts/dev.js",
     "build": "pnpm with-env node scripts/build.js",
-    "build:raw": "next build",
+    "build:raw": "pnpm with-env next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --check . --ignore-path ../../.gitignore",
@@ -26,11 +26,11 @@
   "dependencies": {
     "@farcaster/auth-client": "0.7.0",
     "@farcaster/auth-kit": "0.8.1",
-    "@farcaster/frame-core": "0.3.2",
-    "@farcaster/frame-node": "0.1.2",
+    "@farcaster/frame-core": "0.3.4",
+    "@farcaster/frame-node": "0.1.4",
     "@farcaster/frame-sdk": "^0.0.64",
     "@farcaster/frame-wagmi-connector": ">=0.0.19 <1.0.0",
-    "@farcaster/mini-app-solana": "1.0.2",
+    "@farcaster/mini-app-solana": "1.0.4",
     "@hookform/resolvers": "^5.1.1",
     "@mint-up/convex": "workspace:*",
     "@mint-up/ui": "workspace:*",
@@ -41,8 +41,6 @@
     "@t3-oss/env-nextjs": "^0.13.8",
     "@tanstack/react-query": "catalog:",
     "@upstash/redis": "^1.35.1",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
     "inquirer": "^12.7.0",
     "lucide-react": "^0.525.0",
     "mipd": "^0.0.7",
@@ -55,7 +53,7 @@
     "react-image-crop": "^11.0.10",
     "viem": "^2.31.7",
     "wagmi": "^2.15.6",
-    "xstate": "^5.20.0",
+    "xstate": "^5.20.1",
     "zod": "catalog:"
   },
   "devDependencies": {
@@ -72,7 +70,6 @@
     "jiti": "^1.21.7",
     "localtunnel": "^2.0.2",
     "pino-pretty": "^13.0.0",
-    "postcss": "^8.5.6",
     "typescript": "catalog:"
   },
   "prettier": "@mint-up/prettier-config"
