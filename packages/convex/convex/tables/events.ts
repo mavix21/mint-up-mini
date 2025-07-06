@@ -3,8 +3,7 @@ import { v } from "convex/values";
 
 export const eventsTable = defineTable({
   name: v.string(),
-  slug: v.string(),
-  image: v.optional(v.id("_storage")),
+  image: v.id("_storage"),
   description: v.optional(v.string()),
   startDate: v.number(),
   endDate: v.optional(v.number()),
@@ -84,5 +83,4 @@ export const eventsTable = defineTable({
   ),
 })
   .index("by_creatorId", ["creatorId"])
-  .index("by_organizationId", ["organizationId"])
-  .index("by_slug", ["slug"]);
+  .index("by_organizationId", ["organizationId"]);
