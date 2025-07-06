@@ -17,8 +17,10 @@ interface LivePreviewProps {
   currentStep: number;
   formData: any;
 }
+
 const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const formatDate = (dateString: string) => {
     if (!dateString) return "TBD";
     const date = new Date(dateString);
@@ -27,10 +29,29 @@ const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
       day: "numeric",
     });
   };
+
+  // Helper function to format location from the new object structure
+  const formatLocation = (location: any) => {
+    if (!location) return "Location TBD";
+
+    if (typeof location === "string") {
+      return location; // Handle legacy string format
+    }
+
+    if (location.type === "online") {
+      return "Online Event";
+    } else if (location.type === "in-person") {
+      return location.address || "In-Person Event";
+    }
+
+    return "Location TBD";
+  };
+
   const mockEventData = {
     id: 1,
-    title: formData.eventName || "Your Event Title",
-    price: formData.ticketPrice === "Free" ? "FREE" : "$25.00",
+    title: formData.name || formData.eventName || "Your Event Title",
+    price:
+      formData.ticketTemplates?.[0]?.price?.type === "free" ? "FREE" : "$25.00",
     date: {
       month: formData.startDate
         ? formatDate(formData.startDate).split(" ")[0] || "MAY"
@@ -43,13 +64,13 @@ const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
       formData.selectedImage ||
       "/lovable-uploads/4b2dc3f1-b825-4c03-bcb4-8801b06e3c76.png",
     attendeeCount: 22,
-    location: formData.location || "San Francisco, CA",
+    location: formatLocation(formData.location),
   };
 
   // Create event data for the dialog using form data
   const eventForDialog = {
     id: 1,
-    title: formData.eventName || "Your Event Title",
+    title: formData.name || formData.eventName || "Your Event Title",
     date: formData.startDate
       ? new Date(formData.startDate).toLocaleDateString("en-US", {
           month: "long",
@@ -58,12 +79,13 @@ const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
           minute: "2-digit",
         })
       : "Date TBD",
-    location: formData.location || "Location TBD",
+    location: formatLocation(formData.location),
     image:
       formData.selectedImage ||
       "/lovable-uploads/4b2dc3f1-b825-4c03-bcb4-8801b06e3c76.png",
     attendeeCount: 22,
   };
+
   const handleCardClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -71,9 +93,11 @@ const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
       setIsDialogOpen(true);
     }
   };
+
   const handleDialogClose = () => {
     setIsDialogOpen(false);
   };
+
   return (
     <>
       <div className="sticky top-20">
@@ -113,14 +137,20 @@ const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
                 <AccordionContent>
                   <div className="flex justify-center">
                     <EventTicketCard
-                      eventName={formData.eventName || "Web3 Developer Meetup"}
+                      eventName={
+                        formData.name ||
+                        formData.eventName ||
+                        "Web3 Developer Meetup"
+                      }
                       selectedImage={
                         formData.ticketArtwork || formData.selectedImage
                       }
                       eventDate={formData.startDate}
-                      location={formData.location || "San Francisco"}
+                      location={formatLocation(formData.location)}
                       nftName={
+                        formData.poapTemplate?.name ||
                         formData.nftName ||
+                        formData.name ||
                         formData.eventName ||
                         "Web3 Developer Meetup"
                       }
@@ -152,14 +182,20 @@ const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
                 <div className="flex justify-center">
                   <div className="origin-center scale-75">
                     <EventTicketCard
-                      eventName={formData.eventName || "Web3 Developer Meetup"}
+                      eventName={
+                        formData.name ||
+                        formData.eventName ||
+                        "Web3 Developer Meetup"
+                      }
                       selectedImage={
                         formData.ticketArtwork || formData.selectedImage
                       }
                       eventDate={formData.startDate}
-                      location={formData.location || "San Francisco"}
+                      location={formatLocation(formData.location)}
                       nftName={
+                        formData.poapTemplate?.name ||
                         formData.nftName ||
+                        formData.name ||
                         formData.eventName ||
                         "Web3 Developer Meetup"
                       }
@@ -182,4 +218,5 @@ const LivePreview = ({ currentStep, formData }: LivePreviewProps) => {
     </>
   );
 };
+
 export default LivePreview;

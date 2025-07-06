@@ -37,7 +37,11 @@ export const eventsTable = defineTable({
       isApprovalRequired: v.boolean(),
       price: v.union(
         v.object({ type: v.literal("free") }),
-        v.object({ type: v.literal("paid"), currency: v.string() }),
+        v.object({
+          type: v.literal("paid"),
+          currency: v.string(),
+          amount: v.number(),
+        }),
       ),
       nft: v.object({
         image: v.id("_storage"),

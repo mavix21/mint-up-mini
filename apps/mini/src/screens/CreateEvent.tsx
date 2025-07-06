@@ -21,22 +21,59 @@ const CreateEvent = () => {
   const form = useForm<EventFormValues>({
     resolver: zodResolver(eventFormSchema),
     defaultValues: {
-      eventName: "",
+      name: "",
       startDate: "",
       endDate: "",
-      location: "",
+      location: {
+        type: "in-person" as const,
+        address: "",
+        instructions: "",
+      },
       description: "",
-      nftName: "",
-      nftDescription: "",
-      ticketTypes: [
+      ticketTemplates: [
         {
           id: "1",
           name: "General Admission",
-          price: "Free",
-          requiresApproval: false,
+          description: "",
+          totalSupply: undefined,
+          isApprovalRequired: false,
+          price: {
+            type: "free" as const,
+          },
+          nft: {
+            image: "",
+            metadata: {},
+          },
         },
       ],
-      capacity: "Unlimited",
+      poapTemplate: {
+        name: "",
+        description: "",
+        nft: {
+          image: "",
+          metadata: {},
+        },
+      },
+      automatedFlows: [
+        {
+          type: "pre_event_reminder" as const,
+          isEnabled: true,
+        },
+        {
+          type: "event_start_announcement" as const,
+          isEnabled: true,
+        },
+        {
+          type: "post_event_poap_announcement" as const,
+          isEnabled: true,
+        },
+      ],
+      // Legacy fields for backward compatibility
+      eventName: "",
+      nftName: "",
+      nftDescription: "",
+      ticketTypes: [],
+      capacity: "",
       enableRaffles: false,
       enableTrivia: false,
       autoDeliverPOAPs: true,
@@ -53,21 +90,24 @@ const CreateEvent = () => {
   const isCurrentStepValid = () => {
     if (currentStep === 1) {
       return !!(
-        formData.eventName.trim() &&
+        formData.name?.trim() &&
         formData.startDate &&
-        formData.endDate &&
-        formData.location.trim() &&
-        formData.description.trim() &&
-        formData.description.length >= 10 &&
+        formData.location &&
+        ((formData.location.type === "online" && formData.location.url) ||
+          (formData.location.type === "in-person" &&
+            formData.location.address)) &&
+        formData.description?.trim() &&
         formData.selectedImage
       );
     } else if (currentStep === 2) {
-      return !!(formData.nftName.trim() && formData.nftDescription.trim());
+      return !!(
+        formData.poapTemplate?.name?.trim() && formData.poapTemplate?.nft?.image
+      );
     } else if (currentStep === 3) {
       return !!(
-        formData.ticketTypes.length > 0 &&
-        formData.ticketTypes.every(
-          (ticket) => ticket.name.trim() && ticket.price,
+        formData.ticketTemplates.length > 0 &&
+        formData.ticketTemplates.every(
+          (ticket) => ticket.name.trim() && ticket.nft.image,
         )
       );
     }
@@ -81,7 +121,7 @@ const CreateEvent = () => {
 
       if (currentStep === 1) {
         isValid = await trigger([
-          "eventName",
+          "name",
           "startDate",
           "endDate",
           "location",
@@ -89,9 +129,9 @@ const CreateEvent = () => {
           "selectedImage",
         ]);
       } else if (currentStep === 2) {
-        isValid = await trigger(["nftName", "nftDescription"]);
+        isValid = await trigger(["poapTemplate"]);
       } else if (currentStep === 3) {
-        isValid = await trigger(["ticketTypes"]);
+        isValid = await trigger(["ticketTemplates"]);
       }
 
       if (!isValid) {

@@ -12,6 +12,13 @@ import {
   FormMessage,
 } from "@mint-up/ui/components/form";
 import { Input } from "@mint-up/ui/components/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@mint-up/ui/components/select";
 import { Textarea } from "@mint-up/ui/components/textarea";
 
 import type { EventFormValues } from "../../lib/schemas/eventForm";
@@ -23,6 +30,7 @@ const EventDetailsStep = () => {
 
   const { watch, setValue, control } = useFormContext<EventFormValues>();
   const selectedImage = watch("selectedImage");
+  const location = watch("location");
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -44,6 +52,15 @@ const EventDetailsStep = () => {
 
   const handleRemoveImage = () => {
     setValue("selectedImage", "");
+  };
+
+  const handleLocationTypeChange = (type: "online" | "in-person") => {
+    setValue("location", {
+      type,
+      url: type === "online" ? "" : undefined,
+      address: type === "in-person" ? "" : undefined,
+      instructions: "",
+    });
   };
 
   return (
@@ -116,7 +133,7 @@ const EventDetailsStep = () => {
 
         <FormField
           control={control}
-          name="eventName"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Event Name *</FormLabel>
@@ -134,7 +151,7 @@ const EventDetailsStep = () => {
             name="startDate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Start Date & Time</FormLabel>
+                <FormLabel>Start Date & Time *</FormLabel>
                 <FormControl>
                   <Input type="datetime-local" {...field} />
                 </FormControl>
@@ -158,29 +175,96 @@ const EventDetailsStep = () => {
           />
         </div>
 
+        {/* Location Type */}
         <FormField
           control={control}
-          name="location"
+          name="location.type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Location</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Add physical address or virtual link"
-                  {...field}
-                />
-              </FormControl>
+              <FormLabel>Event Type *</FormLabel>
+              <Select
+                value={field.value}
+                onValueChange={(value: "online" | "in-person") => {
+                  field.onChange(value);
+                  handleLocationTypeChange(value);
+                }}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select event type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="in-person">In-Person Event</SelectItem>
+                  <SelectItem value="online">Online Event</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        {/* Location Details */}
+        {location?.type === "online" && (
+          <FormField
+            control={control}
+            name="location.url"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Event URL *</FormLabel>
+                <FormControl>
+                  <Input placeholder="https://meet.google.com/..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+
+        {location?.type === "in-person" && (
+          <>
+            <FormField
+              control={control}
+              name="location.address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Event Address *</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="123 Main St, City, State 12345"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="location.instructions"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Additional Instructions</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Parking instructions, building access, etc."
+                      rows={2}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </>
+        )}
 
         <FormField
           control={control}
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>Description *</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Tell everyone what your event is about..."
@@ -198,10 +282,7 @@ const EventDetailsStep = () => {
       {tempImageSrc && (
         <ImageCropDialog
           isOpen={isCropDialogOpen}
-          onClose={() => {
-            setIsCropDialogOpen(false);
-            setTempImageSrc(null);
-          }}
+          onClose={() => setIsCropDialogOpen(false)}
           imageSrc={tempImageSrc}
           onCropComplete={handleCropComplete}
         />
