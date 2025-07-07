@@ -9,6 +9,8 @@ import { APP_DESCRIPTION, APP_NAME } from "@/src/lib/constants";
 
 import { Providers } from "./providers";
 
+export const dynamic = "force-dynamic";
+
 const fontSans = Geist({
   subsets: ["latin"],
   variable: "--font-sans",
