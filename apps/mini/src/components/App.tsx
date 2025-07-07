@@ -5,7 +5,6 @@ import { useMiniApp } from "@neynar/react";
 
 import { Footer } from "@/src/components/ui/Footer";
 import {
-  ActionsTab,
   ContextTab,
   CreateTab,
   HomeTab,
