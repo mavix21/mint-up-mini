@@ -11,10 +11,6 @@ import { Tab } from "@/src/lib/types";
 
 import { ExploreTab } from "./ui/tabs/ExploreTab";
 
-export interface AppProps {
-  title?: string;
-}
-
 /**
  * App component serves as the main container for the mini app interface.
  *
@@ -44,9 +40,7 @@ export interface AppProps {
  * <App title="My Mini App" />
  * ```
  */
-export default function App(
-  { title }: AppProps = { title: "Neynar Starter Kit" },
-) {
+export default function App() {
   // --- Hooks ---
   const { isSDKLoaded, context, setInitialTab, setActiveTab, currentTab } =
     useMiniApp();
@@ -95,9 +89,6 @@ export default function App(
 
       {/* Main content and footer should be centered */}
       <div className="container mx-auto py-2 pb-20">
-        {/* Main title */}
-        <h1 className="mb-4 text-center text-2xl font-bold">{title}</h1>
-
         {/* Tab content rendering */}
         {currentTab === Tab.Home && <HomeTab />}
         {currentTab === Tab.Create && <CreateTab />}
