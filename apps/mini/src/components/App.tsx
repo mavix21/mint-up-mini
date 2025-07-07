@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useMiniApp } from "@neynar/react";
 
 import { Footer } from "@/src/components/ui/Footer";
-import { Header } from "@/src/components/ui/Header";
 import {
   ActionsTab,
   ContextTab,
