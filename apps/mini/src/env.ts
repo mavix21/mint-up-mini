@@ -43,6 +43,11 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_URL: z.string().url(),
     NEXT_PUBLIC_CONVEX_URL: z.string(),
+    NEXT_PUBLIC_MINI_APP_NAME: z.string(),
+    NEXT_PUBLIC_MINI_APP_BUTTON_TEXT: z.string(),
+    NEXT_PUBLIC_MINI_APP_DESCRIPTION: z.string(),
+    NEXT_PUBLIC_MINI_APP_PRIMARY_CATEGORY: z.string(),
+    NEXT_PUBLIC_MINI_APP_TAGS: z.string(),
   },
   /**
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
@@ -51,6 +56,14 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
     NEXT_PUBLIC_CONVEX_URL: process.env.NEXT_PUBLIC_CONVEX_URL,
+    NEXT_PUBLIC_MINI_APP_NAME: process.env.NEXT_PUBLIC_MINI_APP_NAME,
+    NEXT_PUBLIC_MINI_APP_BUTTON_TEXT:
+      process.env.NEXT_PUBLIC_MINI_APP_BUTTON_TEXT,
+    NEXT_PUBLIC_MINI_APP_DESCRIPTION:
+      process.env.NEXT_PUBLIC_MINI_APP_DESCRIPTION,
+    NEXT_PUBLIC_MINI_APP_PRIMARY_CATEGORY:
+      process.env.NEXT_PUBLIC_MINI_APP_PRIMARY_CATEGORY,
+    NEXT_PUBLIC_MINI_APP_TAGS: process.env.NEXT_PUBLIC_MINI_APP_TAGS,
   },
   skipValidation:
     !!process.env.CI || process.env.npm_lifecycle_event === "lint",

@@ -51,6 +51,8 @@ export function getSecretEnvVars() {
 export async function getFarcasterMetadata(): Promise<MiniAppManifest> {
   // First check for MINI_APP_METADATA in .env and use that if it exists
   if (process.env.MINI_APP_METADATA) {
+    console.log(process.env.MINI_APP_METADATA);
+    console.log("end of metadata");
     try {
       const metadata = JSON.parse(process.env.MINI_APP_METADATA);
       console.log("Using pre-signed mini app metadata from environment");

@@ -1,17 +1,16 @@
 import { env } from "@/src/env";
 
-export const APP_NAME = "Mint Up!";
-export const APP_DESCRIPTION =
-  "The web3 event platform that transforms any meetup into a collectible experience with NFT tickets and live engagement";
-export const APP_PRIMARY_CATEGORY = "social";
-export const APP_TAGS = "event,events,ticketing,rsvp,meetup,mint".split(",");
+export const APP_NAME = env.NEXT_PUBLIC_MINI_APP_NAME;
+export const APP_DESCRIPTION = env.NEXT_PUBLIC_MINI_APP_DESCRIPTION;
+export const APP_PRIMARY_CATEGORY = env.NEXT_PUBLIC_MINI_APP_PRIMARY_CATEGORY;
+export const APP_TAGS = env.NEXT_PUBLIC_MINI_APP_TAGS.split(",");
 
 export const APP_URL = env.NEXT_PUBLIC_URL;
 export const APP_ICON_URL = `${env.NEXT_PUBLIC_URL}/icon.png`;
 export const APP_OG_IMAGE_URL = `${env.NEXT_PUBLIC_URL}/api/opengraph-image`;
 export const APP_SPLASH_URL = `${env.NEXT_PUBLIC_URL}/splash.png`;
 export const APP_SPLASH_BACKGROUND_COLOR = "#f7f7f7";
-export const APP_BUTTON_TEXT = "Mint Your Ticket";
+export const APP_BUTTON_TEXT = env.NEXT_PUBLIC_MINI_APP_BUTTON_TEXT;
 
 /**
  * Flag to enable/disable wallet functionality.
