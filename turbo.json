@@ -50,7 +50,8 @@
     "PORT",
     "NEXTAUTH_SECRET",
     "NEYNAR_API_KEY",
-    "NEYNAR_CLIENT_ID"
+    "NEYNAR_CLIENT_ID",
+    "MINI_APP_METADATA"
   ],
   "globalPassThroughEnv": [
     "NODE_ENV",
